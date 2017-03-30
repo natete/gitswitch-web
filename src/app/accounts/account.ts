@@ -8,9 +8,9 @@ export class Account {
   repoNumber: number;
   organization: string;
   location: string;
+  account_id: number;
 
-  constructor(account?: any) {
-    if (account) {
+  constructor(account: any = {}) {
       this.id = account.id;
       this.username = account.username;
       this.fullname = account.fullname;
@@ -20,6 +20,6 @@ export class Account {
       this.type = account.type || 'github';
       this.organization = account.organization;
       this.location = account.location;
-    }
+      this.account_id = account.account_id;
   }
 }

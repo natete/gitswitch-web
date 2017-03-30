@@ -8,6 +8,7 @@ import { Constants } from '../shared/constants';
 export class AccountService {
 
   private readonly ACCOUNTS_ENDPOINT = `${Constants.BACKEND_URL}/api/simple_git/account`;
+  private readonly FORMAT_URL = '?_format=json';
 
   private storage: Storage = localStorage;
   private accounts = new BehaviorSubject<Account[]>(null);
@@ -73,11 +74,8 @@ export class AccountService {
    */
   removeAccount(account: Account): Observable<void> {
 
-    const params = new URLSearchParams();
-    params.set('accountId', account.id.toString());
-
-    // return this.http.post('', params) // TODO User the correct endpoint and method
-    return this.http.get('/assets/json/github-client.json')
+    const url = `${this.ACCOUNTS_ENDPOINT}/${account.account_id}`;
+    return this.http.delete(url)
                .map(() => {
                  let currentValue: Account[] = this.accounts.getValue();
                  const accountIndex = currentValue.indexOf(account);
@@ -106,7 +104,7 @@ export class AccountService {
     }
     if (currentNonce === nonce) {
 
-      return this.http.post(`${this.ACCOUNTS_ENDPOINT}?_format=json`, { code: code, state: nonce })
+      return this.http.post(`${this.ACCOUNTS_ENDPOINT}${this.FORMAT_URL}`, { code: code, state: nonce })
                  .map((res) => {
                    const currentValue: Account[] = this.accounts.getValue();
                    currentValue.push(new Account(res));
@@ -133,7 +131,7 @@ export class AccountService {
    */
   private refreshConnectedAccounts(): Observable<Account[]> {
 
-    return this.http.get(`${this.ACCOUNTS_ENDPOINT}/all?_format=json`)
+    return this.http.get(`${this.ACCOUNTS_ENDPOINT}/all${this.FORMAT_URL}`)
                .catch((err: any) => Observable.throw(err));
   }
 
