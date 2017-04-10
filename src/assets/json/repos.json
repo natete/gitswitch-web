@@ -1,18 +1,40 @@
 [
   {
     "id": 1,
-    "name": "My First Repo",
+    "name": "gitswitch-web",
     "issues": "8",
     "type": "Angular 2",
     "age": "9 months",
-    "username": "user1"
+    "username": "yocreoquesi",
+    "collaborators": [
+      "natete",
+      "carlosraigadaherrera",
+      "mmjimenez86",
+      "mavillalba",
+      "laestefi",
+      "penesobrado"
+    ]
   },
   {
     "id": 2,
-    "name": "My Second Repo",
+    "name": "se-leg-mitek-cordova-plugin",
     "issues": "7",
     "type": "Drupal 8",
     "age": "8 months",
-    "username": "user2"
+    "username": "yocreoquesi",
+    "collaborators": [
+      "natete",
+      "carlosraigadaherrera",
+      "mmjimenez86",
+      "mavillalba",
+      "laestefi",
+      "penesobrado",
+      "natete2",
+      "carlosraigadaherrera2",
+      "mmjimenez862",
+      "mavillalba2",
+      "laestefi2",
+      "penesobrad2o"
+    ]
   }
 ]
