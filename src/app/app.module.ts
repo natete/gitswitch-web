@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
+import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 import { RoutesModule } from './core/routes/routes.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -17,6 +17,9 @@ import { ConfigurationService } from './configuration/configuration.service';
 import { TokenService } from './core/auth/token.service';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { RepositoryComponent } from './configuration/repository/repository.component';
+import { TagComponent } from './shared/tag/tag.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FilterPipe } from './shared/filter/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -24,11 +27,14 @@ import { RepositoryComponent } from './configuration/repository/repository.compo
     LoginComponent,
     HomeComponent,
     ConfigurationComponent,
-    RepositoryComponent
+    RepositoryComponent,
+    TagComponent,
+    FilterPipe
   ],
   imports: [
     AccountsModule,
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     PullRequestsModule,
