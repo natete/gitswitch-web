@@ -1,9 +1,30 @@
 .repository-container {
   margin: 30px 0 10px 0;
-  padding: 10px;
   border-radius: 0px;
-  height: 80px;
+  min-height: 120px;
   z-index: 10;
+  padding: 0;
+
+  .repository-row {
+    padding: 10px;
+  }
+
+  .collaborators-container {
+    flex-wrap: wrap;
+    padding: 0 10px;
+    min-height: 91px !important;
+
+    .subtitle {
+      width: 100%;
+      margin: 0 -10px 10px -10px;
+      font-size: 14pt;
+      font-weight: bold;
+    }
+
+    app-tag {
+      margin-bottom: 10px;
+    }
+  }
 }
 
 .sub {
@@ -45,7 +66,7 @@
 
 .subtitle {
   display: block;
-  padding: 3px 0 3px 35px;
+  padding: 5px 0 5px 35px;
 }
 
 .spin {

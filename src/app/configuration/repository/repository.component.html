@@ -1,7 +1,7 @@
 <md-card class="repository-container primary-color-bg" *ngIf="repository">
-  <div fxLayout="row" fxFill>
+  <div fxLayout="row" class="repository-row">
     <div fxLayout="column" fxFlex.xs="90" fxFlex.md="90" fxFlex.sm="90">
-      <div fxLayout="row" fxLayoutAlign="start center" fxFlex.md="50" fxFlex.sm="33" fxFlex.xs="33">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
 
         <div fxLayout="column" fxLayoutAlign="center center" fxFlex="10" fxFlex.xs="15">
           <i class="fa fa-4x fa-code-fork"></i>
@@ -17,7 +17,10 @@
         <div fxLayout="column" fxLayoutAlign="center start"
              fxFlex.lg="20" fxFlex.xl="10" fxFlex.md="70" fxFlex.sm="70" fxFlex.xs="90">
           <div fxLayout="row" fxLayoutAlign="start center" fxFill>
-            <span class="accent-color-font" fxHide.xs fxHide.sm>{{repository.username}}</span>
+            <div fxLayout="row" fxLayoutAlign="start center" fxFill>
+              <i class="fa fa-user-circle code-icon" aria-hidden="true"></i>
+              <span class="accent-color-font" fxHide.xs fxHide.sm>{{repository.username}}</span>
+            </div>
           </div>
         </div>
 
@@ -52,78 +55,84 @@
              fxFlex="15"
              fxHide.md fxHide.sm fxHide.xs>
           <div fxLayout="row" fxLayoutAlign="end center" fxFill class="unfold-arrow accent-color-font">
-            <i (click)="toggleSubsection()" class="fa fa-angle-right" [ngClass]="{ 'spin': unfolded, 'spinOut': unfolded === false }" aria-hidden="true"></i>
+            <i (click)="toggleSubsection()" class="fa fa-angle-right"
+               [ngClass]="{ 'spin': unfolded, 'spinOut': unfolded === false }" aria-hidden="true"></i>
           </div>
         </div>
 
       </div>
     </div>
   </div>
+  <div fxLayout="row" fxLayoutAlign="start start" fxFill class="collaborators-container repository-row">
+    <div class="subtitle accent-color-bg primary-color-font">Collaborators</div>
+    <app-tag *ngFor="let collaborator of repository.collaborators" [tagName]="collaborator"
+             fxLayout="column" fxLayoutAlign="space-between center"></app-tag>
+  </div>
 </md-card>
 
 <div class="subsection" *ngIf="unfolded" [@slideInOut]>
-<md-card class="repository-container sub primary-color-bg" *ngIf="repository">
-  <span class="subtitle accent-color-bg">Pull requests</span>
-  <div fxLayout="row" fxFill>
-    <div fxLayout="column" fxLayoutAlign="center center" fxFlex="33" fxFlex.xs="33">
-      <md-slide-toggle
-        class="example-margin"
-        [color]="color"
-        [checked]="checked"
-        [disabled]="disabled">
-        New ones
-      </md-slide-toggle>
-    </div>
+  <md-card class="repository-container sub primary-color-bg" *ngIf="repository">
+    <span class="subtitle accent-color-bg">Pull requests</span>
+    <div fxLayout="row" fxFill>
+      <div fxLayout="column" fxLayoutAlign="center center" fxFlex="33" fxFlex.xs="33">
+        <md-slide-toggle
+          class="example-margin"
+          [color]="color"
+          [checked]="checked"
+          [disabled]="disabled">
+          New ones
+        </md-slide-toggle>
+      </div>
 
-    <div fxLayout="column" fxLayoutAlign="center center" fxFlex="33" fxFlex.xs="33">
-      <md-slide-toggle
-        class="example-margin"
-        [color]="color"
-        [checked]="checked"
-        [disabled]="disabled">
-        Comments
-      </md-slide-toggle>
-    </div>
+      <div fxLayout="column" fxLayoutAlign="center center" fxFlex="33" fxFlex.xs="33">
+        <md-slide-toggle
+          class="example-margin"
+          [color]="color"
+          [checked]="checked"
+          [disabled]="disabled">
+          Comments
+        </md-slide-toggle>
+      </div>
 
-    <div fxLayout="column" fxLayoutAlign="center center" fxFlex="33" fxFlex.xs="33">
-      <md-slide-toggle
-        class="example-margin"
-        [color]="color"
-        [checked]="checked"
-        [disabled]="disabled">
-        Commits
-      </md-slide-toggle>
+      <div fxLayout="column" fxLayoutAlign="center center" fxFlex="33" fxFlex.xs="33">
+        <md-slide-toggle
+          class="example-margin"
+          [color]="color"
+          [checked]="checked"
+          [disabled]="disabled">
+          Commits
+        </md-slide-toggle>
+      </div>
     </div>
-  </div>
-  <span class="subtitle accent-color-bg">Pull requests</span>
-</md-card>
+    <span class="subtitle accent-color-bg">Pull requests</span>
+  </md-card>
 
-<md-card class="repository-container sub primary-color-bg" *ngIf="repository">
-  <span class="subtitle accent-color-bg">Issues</span>
-  <div fxLayout="row" fxFill>
-    <div fxLayout="column" fxLayoutAlign="center center" fxFlex="33" fxFlex.xs="33">
-      <md-slide-toggle
-        class="example-margin"
-        [color]="color"
-        [checked]="checked"
-        [disabled]="disabled">
-        New ones
-      </md-slide-toggle>
-    </div>
+  <md-card class="repository-container sub primary-color-bg" *ngIf="repository">
+    <span class="subtitle accent-color-bg">Issues</span>
+    <div fxLayout="row" fxFill>
+      <div fxLayout="column" fxLayoutAlign="center center" fxFlex="33" fxFlex.xs="33">
+        <md-slide-toggle
+          class="example-margin"
+          [color]="color"
+          [checked]="checked"
+          [disabled]="disabled">
+          New ones
+        </md-slide-toggle>
+      </div>
 
-    <div fxLayout="column" fxLayoutAlign="center center" fxFlex="33" fxFlex.xs="33">
-      <md-slide-toggle
-        class="example-margin"
-        [color]="color"
-        [checked]="checked"
-        [disabled]="disabled">
-        Comments
-      </md-slide-toggle>
-    </div>
+      <div fxLayout="column" fxLayoutAlign="center center" fxFlex="33" fxFlex.xs="33">
+        <md-slide-toggle
+          class="example-margin"
+          [color]="color"
+          [checked]="checked"
+          [disabled]="disabled">
+          Comments
+        </md-slide-toggle>
+      </div>
 
-    <div fxLayout="column" fxLayoutAlign="center center" fxFlex="33" fxFlex.xs="33">
-      <a class="accent-color-bg" md-raised-button routerLink=".">Apply</a>
+      <div fxLayout="column" fxLayoutAlign="center center" fxFlex="33" fxFlex.xs="33">
+        <a class="accent-color-bg" md-raised-button routerLink=".">Apply</a>
+      </div>
     </div>
-  </div>
-</md-card>
+  </md-card>
 </div>
