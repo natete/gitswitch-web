@@ -12,6 +12,7 @@ import 'rxjs/add/operator/do';
 export class ConfigurationComponent implements OnInit {
 
   private repositories: Repository[];
+  searchTerm: string;
 
   constructor(private configurationService: ConfigurationService, private spinnerService: SpinnerService) { }
 

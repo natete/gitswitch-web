@@ -19,4 +19,32 @@
 .configuration-header {
   color: white;
   margin-bottom: 30px;
+
+  .search-container {
+    position: relative;
+
+    .search-input {
+      height: 100%;
+      width: 100%;
+      border: none;
+      padding: 0 10px;
+    }
+
+    .clear-search,
+    .search-button {
+      padding: 0;
+      min-width: 55px;
+      height: 100%;
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 55px;
+    }
+
+    .search-button {
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+  }
 }
