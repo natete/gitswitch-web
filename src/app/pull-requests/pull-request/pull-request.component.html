@@ -16,31 +16,24 @@
           {{pullRequest.title}}
         </div>
 
+        <div fxLayout="column" fxLayoutAlign="center center" fxFlex="20" fxHide.md fxHide.sm fxHide.xs>
+          <div class="branches-wrapper" fxLayout="row">
+            <span class="pull-request-title pull-request-icon">Repository</span>
+            <span class="text-ellipsis accent-color-font">{{pullRequest.from_repo_name}}</span>
+          </div>
+        </div>
+
         <div fxLayout="column" fxLayoutAlign="center center" fxFlex="15" fxHide.md fxHide.sm fxHide.xs>
-          <div fxLayout="row">
+          <div class="branches-wrapper" fxLayout="row">
             <i class="fa fa-user-circle pull-request-icon"></i>
-            <span class="accent-color-font">{{pullRequest.username}}</span>
+            <span class="text-ellipsis accent-color-font">{{pullRequest.username}}</span>
           </div>
         </div>
 
         <div fxLayout="column" fxLayoutAlign="center center" fxFlex="15" fxHide.md fxHide.sm fxHide.xs>
-          <div fxLayout="row">
+          <div class="branches-wrapper" fxLayout="row">
             <i class="fa fa-clock-o pull-request-icon"></i>
-            <span class="accent-color-font">{{pullRequest.date}}</span>
-          </div>
-        </div>
-
-        <div fxLayout="column" fxLayoutAlign="center center" fxFlex="10" fxHide.md fxHide.sm fxHide.xs>
-          <div fxLayout="row">
-            <i class="fa fa-circle-o pull-request-icon"></i>
-            <span class="accent-color-font">{{pullRequest.commits}}</span>
-          </div>
-        </div>
-
-        <div fxLayout="column" fxLayoutAlign="center center" fxFlex="10" fxHide.md fxHide.sm fxHide.xs>
-          <div fxLayout="row">
-            <i class="fa fa-comments pull-request-icon"></i>
-            <span class="accent-color-font">{{pullRequest.comments}}</span>
+            <span class="text-ellipsis accent-color-font">{{pullRequest.date}}</span>
           </div>
         </div>
 
@@ -50,31 +43,24 @@
            fxLayoutAlign="start center"
            fxFlex="35" fxHide.gt-md>
 
+        <div fxLayout="column" fxLayoutAlign="center center" fxFlex="40">
+          <div class="branches-wrapper" fxLayout="row">
+            <span class="pull-request-title pull-request-icon">Repository</span>
+            <span class="text-ellipsis accent-color-font">{{pullRequest.from_repo_name}}</span>
+          </div>
+        </div>
+
         <div fxLayout="column" fxLayoutAlign="center center" fxFlex="30">
-          <div fxLayout="row">
+          <div class="branches-wrapper" fxLayout="row">
             <i class="fa fa-user-circle pull-request-icon"></i>
-            <span class="accent-color-font">{{pullRequest.username}}</span>
+            <span class="text-ellipsis accent-color-font">{{pullRequest.username}}</span>
           </div>
         </div>
 
         <div fxLayout="column" fxLayoutAlign="center center" fxFlex="30">
-          <div fxLayout="row">
+          <div class="branches-wrapper" fxLayout="row">
             <i class="fa fa-clock-o pull-request-icon"></i>
-            <span class="accent-color-font">{{pullRequest.date}}</span>
-          </div>
-        </div>
-
-        <div fxLayout="column" fxLayoutAlign="center center" fxFlex="20">
-          <div fxLayout="row">
-            <i class="fa fa-circle-o pull-request-icon"></i>
-            <span class="accent-color-font">{{pullRequest.commits}}</span>
-          </div>
-        </div>
-
-        <div fxLayout="column" fxLayoutAlign="center center" fxFlex="20">
-          <div fxLayout="row">
-            <i class="fa fa-comments pull-request-icon"></i>
-            <span class="accent-color-font">{{pullRequest.comments}}</span>
+            <span class="text-ellipsis accent-color-font">{{pullRequest.date}}</span>
           </div>
         </div>
 

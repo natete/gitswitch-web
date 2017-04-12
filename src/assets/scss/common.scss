@@ -113,4 +113,13 @@ app-root:empty + .splash-logo-container {
   }
 }
 
+/*
+  To truncate long texts
+*/
+.text-ellipsis{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 
