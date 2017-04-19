@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { TokenService } from './token.service';
 import { Auth } from './auth';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private tokenService: TokenService) { }
+  constructor(private tokenService: TokenService,
+              private router: Router) { }
 
   /**
    * Check if there is a token.
@@ -26,5 +28,13 @@ export class AuthService {
    */
   getAccessToken(): Auth {
     return new Auth(this.tokenService.getToken());
+  }
+
+  /**
+   * Removes the current token.
+   */
+  revokeToken(): void {
+    this.tokenService.revokeToken();
+    this.router.navigate(['/login']);
   }
 }

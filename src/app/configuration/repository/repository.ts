@@ -1,22 +1,29 @@
+import { Collaborator } from './collaborator';
+
 export class Repository {
   id: number;
   name: string;
-  issues: number;
   type: string;
-  age: string;
   username: string;
-  collaborators: string[];
+  accountId: number;
+  canAdmin: boolean;
+  age: string;
+  updated: string;
+  language: string;
+  issues: number;
+  collaborators: Collaborator[];
 
-  constructor(repository?: any) {
-    // TODO: Adapt this to the information received from the BE
-    if (repository) {
+  constructor(repository: any = {}) {
       this.id = repository.id;
-      this.name = repository.username;
-      this.issues = repository.fullname;
-      this.type = repository.email;
-      this.age = repository.age;
+    this.name = repository.name;
+    this.type = repository.type;
       this.username = repository.username;
-      this.collaborators = repository.collaborators;
-    }
+    this.accountId = repository.accountId;
+    this.canAdmin = repository.canAdmin;
+    this.age = repository.age;
+    this.updated = repository.updated;
+    this.language = repository.language;
+    this.issues = repository.fullname;
+    this.collaborators = repository.collaborators || [];
   }
 }
