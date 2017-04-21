@@ -9,6 +9,8 @@ import { RouterModule } from '@angular/router';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { BackToTopComponent } from './back-to-top/back-to-top.component';
 import { LogoutComponent } from './logout/logout.component';
+import { FilterPipe } from './filter/filter.pipe';
+import { TagComponent } from './tag/tag.component';
 
 @NgModule({
   imports: [
@@ -24,9 +26,18 @@ import { LogoutComponent } from './logout/logout.component';
     MaterialModule,
     NavMenuComponent,
     BackToTopComponent,
-    LogoutComponent
+    LogoutComponent,
+    FilterPipe,
+    TagComponent
   ],
-  declarations: [HeaderComponent, NavMenuComponent, BackToTopComponent, LogoutComponent],
+  declarations: [
+    HeaderComponent,
+    NavMenuComponent,
+    BackToTopComponent,
+    LogoutComponent,
+    FilterPipe,
+    TagComponent
+  ],
   providers: [SpinnerService]
 })
 export class SharedModule { }

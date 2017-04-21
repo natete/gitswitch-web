@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Account } from './account';
 import { Http, URLSearchParams } from '@angular/http';
 import { Constants } from '../shared/constants';
@@ -71,18 +71,19 @@ export class AccountService {
    * @param account The account to disconnect.
    * @returns {Observable<void>}.
    */
-  removeAccount(account: Account): Observable<void> {
+  removeAccount(account: Account): Observable<any> {
 
     const params = new URLSearchParams();
     params.set('accountId', account.id.toString());
 
-    // return this.http.post('', params) // TODO User the correct endpoint and method
-    return this.http.get('/assets/json/github-client.json')
+    return this.http
+               .delete(`${this.ACCOUNTS_ENDPOINT}/${account.accountId}`)
                .map(() => {
                  let currentValue: Account[] = this.accounts.getValue();
                  const accountIndex = currentValue.indexOf(account);
                  currentValue.splice(accountIndex, 1);
                  this.accounts.next(currentValue);
+                 return account;
                });
   }
 

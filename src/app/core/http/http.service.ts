@@ -33,7 +33,7 @@ export class HttpService extends Http {
     }
 
     return super.request(url, options)
-                .map(res => res.json())
+                .map(res => res ? res.json() : null)
                 .catch(this.catchAuthError(this));
 
     // return s.asObservable();

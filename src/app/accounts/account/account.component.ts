@@ -33,12 +33,35 @@ export class AccountComponent implements OnInit {
    */
   removeAccount(account: Account): void {
 
-    this.snackbarSubscription = this.dialogService.confirm('Confirm Remove', 'Are you sure you want to disconnect this account?')
-                                    .filter(res => res)
-                                    .do(() => this.spinnerService.showSpinner())
-                                    .flatMap(() => this.accountService.removeAccount(account))
-                                    .do(() => this.spinnerService.hideSpinner())
-                                    .subscribe(() => this.snackBar.open('Account successfully removed', null, { duration: 2000 }));
+    // this.snackbarSubscription =
+    this.dialogService.confirm('Confirm Remove', 'Are you sure you want to disconnect this account?')
+        .filter(res => res)
+        .do(() => this.spinnerService.showSpinner())
+        .toPromise()
+        .then(() => this.performRemoveAccount(account));
+    // .map(obs => Observable.forkJoin([this.accountService.removeAccount(account), Observable.of(null)]))
+    // .flatMap((res) => {
+    //   console.log(res);
+    //   return res;
+    // })
+    // .do(() => this.spinnerService.hideSpinner())
+    // .subscribe(() => console.log('finiched'));
+    // .map(() => {
+    //   this.spinnerService.showSpinner();
+    //   this.accountService.removeAccount(account)
+    //       .subscribe(() => {
+    //         this.snackBar.open('Account successfully removed', null, { duration: 2000 });
+    //         this.spinnerService.hideSpinner();
+    //       });
+    // });
+
   }
 
+  private performRemoveAccount(account: Account) {
+    this.accountService.removeAccount(account)
+        .do(() => this.spinnerService.hideSpinner())
+        .do(() => this.snackBar.open('Account successfully removed', null, { duration: 2000 }))
+        .toPromise()
+        .then(() => console.log('finiched'));
+  }
 }

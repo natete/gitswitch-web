@@ -36,7 +36,7 @@ export class LoginComponent {
     this.loginService.login(this.username, this.password)
         .then(() => {
           this.spinnerService.hideSpinner();
-          this.router.navigate(['/home']);
+          this.router.navigate(['/accounts']);
         })
         .catch(() => {
           this.spinnerService.hideSpinner();

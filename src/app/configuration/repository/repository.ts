@@ -1,4 +1,4 @@
-import { Collaborator } from './collaborator';
+import { Collaborator } from '../collaborator/collaborator';
 
 export class Repository {
   id: number;

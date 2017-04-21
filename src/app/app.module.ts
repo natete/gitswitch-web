@@ -13,23 +13,15 @@ import { AccountsModule } from './accounts/accounts.module';
 import { SharedModule } from './shared/shared.module';
 import { PullRequestsModule } from './pull-requests/pull-requests.module';
 import { LoginService } from './login/login.service';
-import { ConfigurationService } from './configuration/configuration.service';
 import { TokenService } from './core/auth/token.service';
-import { ConfigurationComponent } from './configuration/configuration.component';
-import { RepositoryComponent } from './configuration/repository/repository.component';
-import { TagComponent } from './shared/tag/tag.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FilterPipe } from './shared/filter/filter.pipe';
+import { ConfigurationModule } from './configuration/configuration.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    ConfigurationComponent,
-    RepositoryComponent,
-    TagComponent,
-    FilterPipe
   ],
   imports: [
     AccountsModule,
@@ -39,7 +31,8 @@ import { FilterPipe } from './shared/filter/filter.pipe';
     HttpModule,
     PullRequestsModule,
     RoutesModule,
-    SharedModule
+    SharedModule,
+    ConfigurationModule
   ],
   providers: [
     AuthService,
@@ -50,7 +43,6 @@ import { FilterPipe } from './shared/filter/filter.pipe';
     },
     LoginService,
     TokenService,
-    ConfigurationService
   ],
   bootstrap: [AppComponent]
 })
