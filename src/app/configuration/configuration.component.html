@@ -71,7 +71,7 @@
 
       <div *ngIf="repositories">
         <app-repository *ngFor="let repository of repositories | filter:'name': searchTerm"
-                        [repository]="repository"></app-repository>
+                        [repository]="repository" [userFound]="userFound"></app-repository>
       </div>
       <div *ngIf="repositories && repositories.length === 0" class="no-repositories-container accent-color-font">
         You have no repositories!

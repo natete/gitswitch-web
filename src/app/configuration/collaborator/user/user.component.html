@@ -1,0 +1,16 @@
+<md-card class="user-profile-container primary-color-bg" *ngIf="user" (click)="selectedUser(user)">
+  <md-grid-list cols="4">
+    <md-grid-tile>
+      <img class="user-profile-picture" [src]="user.photoUrl" alt="Profile Picture"/>
+    </md-grid-tile>
+    <md-grid-tile>
+      <i class="fa fa-3x fa-{{user.type.toLowerCase()}} user-icon"></i>
+    </md-grid-tile>
+    <md-grid-tile>
+      <span><strong>{{user.username}}</strong></span>
+    </md-grid-tile>
+    <md-grid-tile>
+      <span><strong>{{user.type}}</strong></span>
+    </md-grid-tile>
+  </md-grid-list>
+</md-card>

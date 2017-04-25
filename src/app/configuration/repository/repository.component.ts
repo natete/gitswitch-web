@@ -21,6 +21,7 @@ import {Repository} from "./repository";
 export class RepositoryComponent implements OnInit {
 
   @Input() repository: Repository;
+  @Input() userFound: boolean;
   unfolded: boolean = undefined;
 
   constructor() {

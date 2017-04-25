@@ -63,7 +63,7 @@
       </div>
     </div>
   </div>
-  <div fxLayout="row" fxLayoutAlign="start start" fxFill class="collaborators-container repository-row">
+  <div fxLayout="row" fxLayoutAlign="start start" fxFill class="collaborators-container repository-row" *ngIf="!userFound">
     <div class="subtitle accent-color-bg primary-color-font">Collaborators</div>
     <app-tag *ngFor="let collaborator of repository.collaborators" [tagName]="collaborator.username"
              fxLayout="column" fxLayoutAlign="space-between center"></app-tag>

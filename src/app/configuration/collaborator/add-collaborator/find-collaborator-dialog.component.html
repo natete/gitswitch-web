@@ -4,16 +4,38 @@
   </h1>
 
   <div md-dialog-content>
-    <md-input-container class="example-full-width">
-      <input mdInput placeholder="Search">
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <div fxLayout="row" fxFill class="search-container">
+    <md-input-container>
+      <input class="search-input" mdInput [(ngModel)]="searchUser" placeholder="Search user...">
     </md-input-container>
-  </div>
-
-  <div md-dialog-actions class="primary-color-font accent-color-bg">
-    <button type="button" md-button>
+    <button md-button (click)="searchUser = undefined" *ngIf="searchUser" class="clear-search gray-color-font">
       <md-icon>clear</md-icon>
     </button>
-    <button type="button" md-button>
+    <button md-button class="search-button" (click)="search()">
+      <md-icon>search</md-icon>
+    </button>
+      </div>
+    </div>
+
+    <div class="user-list-container">
+
+      <app-user *ngFor="let user of users" [user]="user" (userSelect)="getUserSelect($event)"></app-user>
+      <div *ngIf="users && users.length === 0" class="no-users-container accent-color-font">
+        You have no users!
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <div md-dialog-actions class="primary-color-font accent-color-bg">
+    <button type="button" md-button (click)="dialogRef.close()">
+      <md-icon>clear</md-icon>
+    </button>
+    <button type="button" md-button (click)="confirmSelection()"
+            [disabled]="users && users.length == '0'">
       <md-icon>check</md-icon>
     </button>
   </div>

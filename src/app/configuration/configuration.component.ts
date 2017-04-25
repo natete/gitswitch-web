@@ -7,6 +7,7 @@ import { AutoUnsubscribe } from '../shared/auto-unsubscribe/auto-unsubscribe.dec
 import { Subscription } from 'rxjs';
 import { MdDialog } from '@angular/material';
 import { FindCollaboratorDialog } from './collaborator/add-collaborator/find-collaborator-dialog.component';
+import { User } from './collaborator/user/user';
 
 @Component({
   selector: 'app-configuration',
@@ -17,9 +18,11 @@ import { FindCollaboratorDialog } from './collaborator/add-collaborator/find-col
 export class ConfigurationComponent implements OnInit {
 
   private repositories: Repository[];
+  private reposFiltered: Repository[]=[];
   private repositoriesSubscription: Subscription;
   private dialogSubscription: Subscription;
   searchTerm: string;
+  userFound: boolean = false;
 
   constructor(private configurationService: ConfigurationService,
               private spinnerService: SpinnerService,
@@ -43,7 +46,36 @@ export class ConfigurationComponent implements OnInit {
     const dialog = this.dialog.open(FindCollaboratorDialog, { width: '33%' });
 
     this.dialogSubscription = dialog.afterClosed()
-                                    .subscribe(result => this.handleUserFound(result));
+                                    .subscribe(result => {
+                                      if(result != undefined){
+                                      this.handleUserFound(result);
+                                      this.getRepositoriesFiltered(result);
+                                      }
+                                    });
+
+  }
+
+  getRepositoriesFiltered(user: User) {
+    for (const repository of this.repositories) {
+      if (repository.canAdmin) {
+        this.checkIsCollaborator(repository, user);
+      }
+    }
+    if(this.reposFiltered.length != 0){
+      this.repositories = this.reposFiltered;
+    }
+  }
+
+  private checkIsCollaborator(repository: Repository, user: User): void {
+    let found = false;
+    if (repository.collaborators != null) {
+      found = repository.collaborators.find(collaborator => collaborator.username == user.username) == undefined ? false : true;
+    }
+
+    if (!found) {
+      this.userFound=true;
+      this.reposFiltered.push(repository);
+    }
   }
 
   private handleUserFound(result: any) {
