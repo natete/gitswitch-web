@@ -12,6 +12,7 @@ export class Repository {
   language: string;
   issues: number;
   collaborators: Collaborator[];
+  selected: boolean;
 
   constructor(repository: any = {}) {
       this.id = repository.id;
@@ -25,5 +26,6 @@ export class Repository {
     this.language = repository.language;
     this.issues = repository.fullname;
     this.collaborators = repository.collaborators || [];
+    this.selected = repository.selected || false;
   }
 }

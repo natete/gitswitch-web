@@ -1,4 +1,5 @@
-<md-card class="user-profile-container primary-color-bg" *ngIf="user" (click)="selectedUser(user)">
+<md-card class="user-profile-container primary-color-bg" [ngClass]="{'user-selected' : userSelected}" *ngIf="user"
+         (click)="selectedUser(user)">
   <md-grid-list cols="4">
     <md-grid-tile>
       <img class="user-profile-picture" [src]="user.photoUrl" alt="Profile Picture"/>

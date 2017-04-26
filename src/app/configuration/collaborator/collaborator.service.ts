@@ -34,13 +34,15 @@ export class CollaboratorService {
    * @param repository data of repository where the user has.
    * @param user data of user to remove user as a collaborator.
    */
-  deleteCollaborator(repository: Repository, user: User): void {
-    this.http
-        .delete(`${this.COLLABORATORS_ENDPOINT}/${repository.accountId}/${repository.username}/${repository.name}/${user.username}${this.FORMAT_URL}`)
-        .subscribe(() => this.collaborators.next(
-          this.collaborators.getValue()
-              .filter((co: Collaborator) => co.username !== user.username))
-        );
+  deleteCollaborator(repository: Repository, username: string): Observable<any> {
+    return this.http
+        .delete(`${this.COLLABORATORS_ENDPOINT}/${repository.accountId}/${repository.username}/${repository.name}/${username}${this.FORMAT_URL}`)
+        .map(() =>{
+      const collaborators = this.collaborators.getValue()
+                                .filter((co: Collaborator) => co.username !== username);
+          this.collaborators.next(collaborators)
+          return collaborators;
+        });
   }
 
   /**
@@ -48,17 +50,14 @@ export class CollaboratorService {
    * @param repository data of repository where the user isn't collaborator.
    * @param user data of user to add user as a collaborator.
    */
-  addCollaborator(repository: Repository, user: User): Observable<void> {
-    return this.http
+  addCollaborator(repository: Repository, user: User): void {
+    this.http
         .put(`${this.COLLABORATORS_ENDPOINT}/${repository.accountId}/${repository.username}/${repository.name}/${user.username}${this.FORMAT_URL}`, JSON.stringify({}))
-        .map((res) => {
-          const currentValue: Collaborator[] = this.collaborators.getValue();
-          currentValue.push(new Collaborator(res));
-          this.collaborators.next(currentValue);
-        })
-        .catch((err: any) => {
-          console.log('error');
-          return Observable.throw(err)
-        });
+        .subscribe((collaborator: any) => {
+            const collaborators: Collaborator[] = this.collaborators.getValue();
+            collaborators.push(collaborator as Collaborator);
+            this.collaborators.next(collaborators);
+          },
+          err => {return Observable.throw(err)});
   }
 }

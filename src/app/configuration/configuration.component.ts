@@ -5,9 +5,10 @@ import { SpinnerService } from '../shared/providers/spinner.service';
 import 'rxjs/add/operator/do';
 import { AutoUnsubscribe } from '../shared/auto-unsubscribe/auto-unsubscribe.decorator';
 import { Subscription } from 'rxjs';
-import { MdDialog } from '@angular/material';
+import { MdDialog, MdSnackBarConfig, MdSnackBar } from '@angular/material';
 import { FindCollaboratorDialog } from './collaborator/add-collaborator/find-collaborator-dialog.component';
 import { User } from './collaborator/user/user';
+import { CollaboratorService } from './collaborator/collaborator.service';
 
 @Component({
   selector: 'app-configuration',
@@ -23,10 +24,13 @@ export class ConfigurationComponent implements OnInit {
   private dialogSubscription: Subscription;
   searchTerm: string;
   userFound: boolean = false;
+  user: User;
 
   constructor(private configurationService: ConfigurationService,
               private spinnerService: SpinnerService,
-              private dialog: MdDialog) { }
+              private dialog: MdDialog,
+              private collaboratorService: CollaboratorService,
+              private snackBar: MdSnackBar) { }
 
   ngOnInit() {
     this.spinnerService.showSpinner();
@@ -48,17 +52,17 @@ export class ConfigurationComponent implements OnInit {
     this.dialogSubscription = dialog.afterClosed()
                                     .subscribe(result => {
                                       if(result != undefined){
-                                      this.handleUserFound(result);
-                                      this.getRepositoriesFiltered(result);
+                                        this.user = result;
+                                      this.getRepositoriesFiltered();
                                       }
                                     });
 
   }
 
-  getRepositoriesFiltered(user: User) {
+  getRepositoriesFiltered() {
     for (const repository of this.repositories) {
       if (repository.canAdmin) {
-        this.checkIsCollaborator(repository, user);
+        this.checkIsCollaborator(repository);
       }
     }
     if(this.reposFiltered.length != 0){
@@ -66,10 +70,32 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  private checkIsCollaborator(repository: Repository, user: User): void {
+  cancelAddCollaborator(){
+    location.reload();
+  }
+
+  addCollaborator(){
+      if (this.user) {
+        let reposSelected: Repository[] = [];
+        for (const repo of this.reposFiltered) {
+          if (repo.selected) {
+            reposSelected.push(repo);
+          }
+        }
+        if (reposSelected.length != 0) {
+                for (const repository of reposSelected) {
+                    this.collaboratorService.addCollaborator(repository, this.user);
+                }
+                //this.snackBar.open('Collaborator successfully added', null, { duration: 2000 } as MdSnackBarConfig)
+                //location.reload();
+        }
+      }
+  }
+
+  private checkIsCollaborator(repository: Repository): void {
     let found = false;
     if (repository.collaborators != null) {
-      found = repository.collaborators.find(collaborator => collaborator.username == user.username) == undefined ? false : true;
+      found = repository.collaborators.find(collaborator => collaborator.username == this.user.username) == undefined ? false : true;
     }
 
     if (!found) {

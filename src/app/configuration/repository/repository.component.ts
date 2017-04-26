@@ -1,5 +1,7 @@
 import {Component, OnInit, Input, style, animate, transition, trigger} from '@angular/core';
 import {Repository} from "./repository";
+import { User } from '../collaborator/user/user';
+import { CollaboratorService } from '../collaborator/collaborator.service';
 
 @Component({
   selector: 'app-repository',
@@ -23,8 +25,10 @@ export class RepositoryComponent implements OnInit {
   @Input() repository: Repository;
   @Input() userFound: boolean;
   unfolded: boolean = undefined;
+  selectedIcon: string ='plus';
 
-  constructor() {
+
+  constructor(private collaboratorService: CollaboratorService) {
   }
 
   ngOnInit() {
@@ -33,5 +37,20 @@ export class RepositoryComponent implements OnInit {
 
   toggleSubsection() {
     (this.unfolded && this.unfolded !== undefined) ? this.unfolded = false : this.unfolded = true;
+  }
+
+  selectedRepository(repository){
+    repository.selected = !repository.selected;
+    if(repository.selected){
+      this.selectedIcon = 'check';
+    }else{
+      this.selectedIcon = 'plus';
+    }
+  }
+
+  getUserDelete(event) {
+    if (event){
+      this.collaboratorService.deleteCollaborator(this.repository, event);
+    }
   }
 }

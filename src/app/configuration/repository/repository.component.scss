@@ -81,6 +81,10 @@
   animation:spinOut 200ms linear;
 }
 
+.selected-icon {
+  font-size: 25pt !important;
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);

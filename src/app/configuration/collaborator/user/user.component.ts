@@ -10,6 +10,7 @@ export class UserComponent implements OnInit {
 
   @Input() user: User;
   @Output() userSelect = new EventEmitter<string>();
+  userSelected: boolean = false;
 
   constructor() {
   }
@@ -19,7 +20,10 @@ export class UserComponent implements OnInit {
   }
 
   selectedUser(user){
-    this.userSelect.emit(user);
+    this.userSelected = !this.userSelected;
+    if(this.userSelected) {
+      this.userSelect.emit(user);
+    }
   }
 
 }
