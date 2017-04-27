@@ -2,6 +2,8 @@ import {Component, OnInit, Input, style, animate, transition, trigger} from '@an
 import {Repository} from "./repository";
 import { User } from '../collaborator/user/user';
 import { CollaboratorService } from '../collaborator/collaborator.service';
+import { SpinnerService } from '../../shared/providers/spinner.service';
+import { MdSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-repository',
@@ -25,14 +27,14 @@ export class RepositoryComponent implements OnInit {
   @Input() repository: Repository;
   @Input() userFound: boolean;
   unfolded: boolean = undefined;
-  selectedIcon: string ='plus';
 
 
-  constructor(private collaboratorService: CollaboratorService) {
+  constructor(private collaboratorService: CollaboratorService,
+              private spinnerService: SpinnerService,
+              private snackBar: MdSnackBar) {
   }
 
   ngOnInit() {
-
   }
 
   toggleSubsection() {
@@ -41,16 +43,20 @@ export class RepositoryComponent implements OnInit {
 
   selectedRepository(repository){
     repository.selected = !repository.selected;
-    if(repository.selected){
-      this.selectedIcon = 'check';
-    }else{
-      this.selectedIcon = 'plus';
-    }
   }
 
-  getUserDelete(event) {
-    if (event){
-      this.collaboratorService.deleteCollaborator(this.repository, event);
+  getUserDelete(username) {
+    if (username){
+      this.collaboratorService.deleteCollaborator(this.repository, username)
+          .do(() => this.spinnerService.hideSpinner())
+          .do(() => this.snackBar.open('Collaborator successfully removed', null, { duration: 2000 }))
+          .subscribe(
+            () => {
+              this.repository.collaborators = this.repository.collaborators.filter(col => col.username !== username)
+            },
+            error => console.error(error),
+            () => console.log('completed')
+          );
     }
   }
 }

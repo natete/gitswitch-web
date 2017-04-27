@@ -16,6 +16,7 @@ import { LoginService } from './login/login.service';
 import { TokenService } from './core/auth/token.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigurationModule } from './configuration/configuration.module';
+import { MdSnackBar } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,7 @@ import { ConfigurationModule } from './configuration/configuration.module';
     {
       provide: Http,
       useFactory: httpFactory,
-      deps: [XHRBackend, RequestOptions, AuthService]
+      deps: [XHRBackend, RequestOptions, AuthService, MdSnackBar]
     },
     LoginService,
     TokenService,

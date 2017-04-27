@@ -36,13 +36,7 @@ export class CollaboratorService {
    */
   deleteCollaborator(repository: Repository, username: string): Observable<any> {
     return this.http
-        .delete(`${this.COLLABORATORS_ENDPOINT}/${repository.accountId}/${repository.username}/${repository.name}/${username}${this.FORMAT_URL}`)
-        .map(() =>{
-      const collaborators = this.collaborators.getValue()
-                                .filter((co: Collaborator) => co.username !== username);
-          this.collaborators.next(collaborators)
-          return collaborators;
-        });
+        .delete(`${this.COLLABORATORS_ENDPOINT}/${repository.accountId}/${repository.username}/${repository.name}/${username}${this.FORMAT_URL}`);
   }
 
   /**
@@ -50,14 +44,8 @@ export class CollaboratorService {
    * @param repository data of repository where the user isn't collaborator.
    * @param user data of user to add user as a collaborator.
    */
-  addCollaborator(repository: Repository, user: User): void {
-    this.http
-        .put(`${this.COLLABORATORS_ENDPOINT}/${repository.accountId}/${repository.username}/${repository.name}/${user.username}${this.FORMAT_URL}`, JSON.stringify({}))
-        .subscribe((collaborator: any) => {
-            const collaborators: Collaborator[] = this.collaborators.getValue();
-            collaborators.push(collaborator as Collaborator);
-            this.collaborators.next(collaborators);
-          },
-          err => {return Observable.throw(err)});
+  addCollaborator(repository: Repository, user: User): Observable<any> {
+    return this.http
+        .put(`${this.COLLABORATORS_ENDPOINT}/${repository.accountId}/${repository.username}/${repository.name}/${user.username}${this.FORMAT_URL}`, JSON.stringify({}));
   }
 }

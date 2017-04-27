@@ -64,7 +64,7 @@
             <i (click)="toggleSubsection()" class="fa fa-angle-right"
                [ngClass]="{ 'spin': unfolded, 'spinOut': unfolded === false }" aria-hidden="true"
                *ngIf="!userFound"></i>
-            <i class="fa fa-{{selectedIcon}} selected-icon" aria-hidden="true" *ngIf="userFound"
+            <i class="fa fa-{{repository.selected ? 'check' : 'plus'}} selected-icon" aria-hidden="true" *ngIf="userFound"
                (click)="selectedRepository(repository)"></i>
           </div>
 

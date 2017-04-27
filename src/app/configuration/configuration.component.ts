@@ -9,6 +9,7 @@ import { MdDialog, MdSnackBarConfig, MdSnackBar } from '@angular/material';
 import { FindCollaboratorDialog } from './collaborator/add-collaborator/find-collaborator-dialog.component';
 import { User } from './collaborator/user/user';
 import { CollaboratorService } from './collaborator/collaborator.service';
+import { Collaborator } from './collaborator/collaborator';
 
 @Component({
   selector: 'app-configuration',
@@ -33,6 +34,8 @@ export class ConfigurationComponent implements OnInit {
               private snackBar: MdSnackBar) { }
 
   ngOnInit() {
+    this.userFound = false;
+    this.reposFiltered = [];
     this.spinnerService.showSpinner();
 
     // Get the list of accounts
@@ -46,7 +49,7 @@ export class ConfigurationComponent implements OnInit {
   }
 
   openFindUser() {
-
+    this.user = null;
     const dialog = this.dialog.open(FindCollaboratorDialog, { width: '33%' });
 
     this.dialogSubscription = dialog.afterClosed()
@@ -67,11 +70,18 @@ export class ConfigurationComponent implements OnInit {
     }
     if(this.reposFiltered.length != 0){
       this.repositories = this.reposFiltered;
+    }else{
+      this.snackBar.open('User has not repositories to add collaborator', null, { duration: 2000 } as MdSnackBarConfig);
     }
   }
 
   cancelAddCollaborator(){
-    location.reload();
+    for (const repo of this.reposFiltered) {
+      if (repo.selected) {
+        repo.selected = false;
+      }
+    }
+    this.ngOnInit();
   }
 
   addCollaborator(){
@@ -79,15 +89,27 @@ export class ConfigurationComponent implements OnInit {
         let reposSelected: Repository[] = [];
         for (const repo of this.reposFiltered) {
           if (repo.selected) {
+            repo.selected = false;
             reposSelected.push(repo);
           }
         }
         if (reposSelected.length != 0) {
                 for (const repository of reposSelected) {
-                    this.collaboratorService.addCollaborator(repository, this.user);
+                    this.collaboratorService.addCollaborator(repository, this.user)
+                        .do(() => this.spinnerService.hideSpinner())
+                        .subscribe(() => {
+                          const collaborator = new Collaborator();
+                          collaborator.id = this.user.id;
+                          collaborator.username = this.user.username;
+                          collaborator.photoUrl = this.user.photoUrl;
+                          repository.collaborators.push(collaborator);
+                        },
+                          error => console.error(error),
+                          () => console.log('completed')
+                        );
                 }
-                //this.snackBar.open('Collaborator successfully added', null, { duration: 2000 } as MdSnackBarConfig)
-                //location.reload();
+          this.ngOnInit();
+          this.snackBar.open('Collaborator successfully added', null, { duration: 2000 } as MdSnackBarConfig);
         }
       }
   }
