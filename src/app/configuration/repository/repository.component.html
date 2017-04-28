@@ -77,7 +77,7 @@
        *ngIf="!userFound">
     <div class="subtitle accent-color-bg primary-color-font">Collaborators</div>
     <app-tag *ngFor="let collaborator of repository.collaborators" [tagName]="collaborator.username"
-             fxLayout="column" fxLayoutAlign="space-between center" (onRemove)="getUserDelete($event)"></app-tag>
+             fxLayout="column" fxLayoutAlign="space-between center" (onRemove)="deleteCollaborator($event)"></app-tag>
   </div>
 </md-card>
 

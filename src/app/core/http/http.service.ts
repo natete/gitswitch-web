@@ -2,15 +2,13 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, Request, RequestOptions, RequestOptionsArgs, Response, XHRBackend } from '@angular/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { MdSnackBar } from '@angular/material';
 
 @Injectable()
 export class HttpService extends Http {
 
   constructor(backend: XHRBackend,
               options: RequestOptions,
-              private authService: AuthService,
-              private snackBar: MdSnackBar) {
+              private authService: AuthService) {
     super(backend, options);
   }
 
@@ -45,10 +43,6 @@ export class HttpService extends Http {
     return (res: Response) => {
       if (res.status === 401 || res.status === 403) {
         this.authService.revokeToken();
-      }else if (res.status === 409) {
-        this.snackBar.open('You have already added this account', null, { duration: 2000 })
-      } else if (res.status === 404) {
-        this.snackBar.open('User does not exist', null, { duration: 2000 })
       }
       return Observable.throw(res);
     }

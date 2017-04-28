@@ -4,12 +4,13 @@
   </h1>
 
   <div md-dialog-content>
-    <div fxLayout="column" fxLayoutAlign="center center">
+    <div fxLayout="column" fxLayoutAlign="center center" style="
+    min-width: 25em;">
       <div fxLayout="row" fxFill class="search-container">
     <md-input-container>
       <input class="search-input" mdInput [(ngModel)]="searchUser" placeholder="Search user...">
     </md-input-container>
-    <button md-button (click)="searchUser = undefined" *ngIf="searchUser" class="clear-search gray-color-font">
+    <button md-button (click)="deleteUsername()" *ngIf="searchUser" class="clear-search gray-color-font">
       <md-icon>clear</md-icon>
     </button>
     <button md-button class="search-button" (click)="search()">
@@ -20,7 +21,8 @@
 
     <div class="user-list-container">
 
-      <app-user *ngFor="let user of users" [user]="user" (userSelect)="getUserSelect($event)"></app-user>
+      <app-user *ngFor="let user of users" [user]="user" [lastUser]="userSelected"
+                (userSelect)="getUserSelect($event)"></app-user>
       <div *ngIf="users && users.length === 0" class="no-users-container accent-color-font">
         You have no users!
       </div>
@@ -35,7 +37,7 @@
       <md-icon>clear</md-icon>
     </button>
     <button type="button" md-button (click)="confirmSelection()"
-            [disabled]="users && users.length == '0'">
+            [disabled]="!userSelected">
       <md-icon>check</md-icon>
     </button>
   </div>

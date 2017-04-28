@@ -5,6 +5,7 @@ export class User {
   photoUrl: string;
   email: string;
   type: string;
+  selected: boolean;
 
   constructor(user: any = {}) {
     this.id = user.id;
@@ -12,6 +13,7 @@ export class User {
     this.username = user.username;
     this.photoUrl = user.photoUrl;
     this.email = user.email;
-    this.photoUrl = user.photoUrl;
+    this.type = user.type;
+    this.selected = user.selected || false;
   }
 }

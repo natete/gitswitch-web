@@ -8,8 +8,11 @@
   .mat-dialog-content {
     margin-bottom: 24px;
 
+    md-input-container {
+      min-width: 17em;
+    }
+
     .search-container {
-      //position: relative;
 
       .search-input {
         height: 100%;
@@ -26,8 +29,6 @@
       }
 
       .clear-search {
-        //position: absolute;
-        //right: 60px;
         right:-2em;
       }
 

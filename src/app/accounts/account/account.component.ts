@@ -17,7 +17,6 @@ import { Subscription } from 'rxjs';
 export class AccountComponent implements OnInit {
 
   @Input() account: Account;
-  private snackbarSubscription: Subscription;
 
   constructor(private accountService: AccountService,
               private dialogService: DialogsService,
@@ -32,29 +31,11 @@ export class AccountComponent implements OnInit {
    * @param account The account to disconnect.
    */
   removeAccount(account: Account): void {
-
-    // this.snackbarSubscription =
     this.dialogService.confirm('Confirm Remove', 'Are you sure you want to disconnect this account?')
         .filter(res => res)
         .do(() => this.spinnerService.showSpinner())
         .toPromise()
         .then(() => this.performRemoveAccount(account));
-    // .map(obs => Observable.forkJoin([this.accountService.removeAccount(account), Observable.of(null)]))
-    // .flatMap((res) => {
-    //   console.log(res);
-    //   return res;
-    // })
-    // .do(() => this.spinnerService.hideSpinner())
-    // .subscribe(() => console.log('finiched'));
-    // .map(() => {
-    //   this.spinnerService.showSpinner();
-    //   this.accountService.removeAccount(account)
-    //       .subscribe(() => {
-    //         this.snackBar.open('Account successfully removed', null, { duration: 2000 });
-    //         this.spinnerService.hideSpinner();
-    //       });
-    // });
-
   }
 
   private performRemoveAccount(account: Account) {

@@ -15,7 +15,7 @@
     <!--</div>-->
     <!--</div>-->
 
-    <div class="configuration-header" fxLayout="row" fxFlex.xs="90" fxFlex.md="90" fxFlex.sm="90" *ngIf="!userFound">
+    <div class="configuration-header" fxLayout="row" fxFlex.xs="90" fxFlex.md="90" fxFlex.sm="90" *ngIf="!userFound" >
 
       <div fxLayout="column" fxLayoutAlign="left left" fxFlex="35" fxFlex.xs="35">
         <div fxLayout="row" fxFill class="search-container">
@@ -68,7 +68,7 @@
 
     <div class="configuration-header" fxLayout="row" fxFlex.xs="90" fxFlex.md="90" fxFlex.sm="90" *ngIf="userFound">
 
-      <div fxLayout="column" fxLayoutAlign="left left" fxFlex="50" fxFlex.xs="50">
+      <div fxLayout="column" fxLayoutAlign="left left" fxFlex="35" fxFlex.xs="35">
         <div fxLayout="row" fxFill class="search-container">
           <input class="search-input" [(ngModel)]="searchTerm" placeholder="Search repo...">
           <button md-button (click)="searchTerm = undefined" *ngIf="searchTerm" class="clear-search gray-color-font">
@@ -80,7 +80,7 @@
         </div>
       </div>
 
-      <div fxLayout="column" fxLayoutAlign="end end" fxFlex="50" fxFlex.xs="50">
+      <div fxLayout="column" fxLayoutAlign="end end" fxFlex="65" fxFlex.xs="65">
 
         <md-menu y-position="below" x-position="before" [overlapTrigger]="false" #appMenu2="mdMenu" class="config-menu">
           <button md-menu-item> Item 1</button>

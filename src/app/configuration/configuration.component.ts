@@ -48,9 +48,12 @@ export class ConfigurationComponent implements OnInit {
       );
   }
 
+  /**
+   * Open dialog to find users to add collaborator
+   */
   openFindUser() {
     this.user = null;
-    const dialog = this.dialog.open(FindCollaboratorDialog, { width: '33%' });
+    const dialog = this.dialog.open(FindCollaboratorDialog);
 
     this.dialogSubscription = dialog.afterClosed()
                                     .subscribe(result => {
@@ -62,8 +65,12 @@ export class ConfigurationComponent implements OnInit {
 
   }
 
+  /**
+   * Get repositories where the user is not collaborating
+   */
   getRepositoriesFiltered() {
     for (const repository of this.repositories) {
+      //The user has permission
       if (repository.canAdmin) {
         this.checkIsCollaborator(repository);
       }
@@ -73,8 +80,12 @@ export class ConfigurationComponent implements OnInit {
     }else{
       this.snackBar.open('User has not repositories to add collaborator', null, { duration: 2000 } as MdSnackBarConfig);
     }
+    this.spinnerService.hideSpinner();
   }
 
+  /**
+   * Cancel the filtered repositories and get all repositories again
+   */
   cancelAddCollaborator(){
     for (const repo of this.reposFiltered) {
       if (repo.selected) {
@@ -86,6 +97,7 @@ export class ConfigurationComponent implements OnInit {
 
   addCollaborator(){
       if (this.user) {
+        this.spinnerService.showSpinner();
         let reposSelected: Repository[] = [];
         for (const repo of this.reposFiltered) {
           if (repo.selected) {
@@ -110,10 +122,16 @@ export class ConfigurationComponent implements OnInit {
                 }
           this.ngOnInit();
           this.snackBar.open('Collaborator successfully added', null, { duration: 2000 } as MdSnackBarConfig);
+        }else{
+          this.spinnerService.hideSpinner();
+          this.snackBar.open('You must select almost one repository', null, { duration: 2000 } as MdSnackBarConfig);
         }
       }
   }
 
+  /**
+   * Check if the user isn't collaborator in the repository to get filtered repositories
+   */
   private checkIsCollaborator(repository: Repository): void {
     let found = false;
     if (repository.collaborators != null) {
@@ -124,9 +142,5 @@ export class ConfigurationComponent implements OnInit {
       this.userFound=true;
       this.reposFiltered.push(repository);
     }
-  }
-
-  private handleUserFound(result: any) {
-    console.log(result);
   }
 }

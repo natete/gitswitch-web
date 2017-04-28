@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Repository } from '../repository/repository';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Http } from '@angular/http';
 import { Collaborator } from './collaborator';
 import { Constants } from '../../shared/constants';
@@ -11,8 +11,6 @@ export class CollaboratorService {
 
   private readonly COLLABORATORS_ENDPOINT = `${Constants.BACKEND_URL}/api/simple_git/collaborator`;
   private readonly FORMAT_URL = '?_format=json';
-
-  private collaborators = new BehaviorSubject<Collaborator[]>(null);
 
   constructor(private http: Http) { }
 
@@ -26,7 +24,11 @@ export class CollaboratorService {
     return this.http.get(`${this.COLLABORATORS_ENDPOINT}/${repo.accountId}/${repo.username}/${repo.name}/all${this.FORMAT_URL}`)
                .map((res: any) => res as Collaborator[])
                .do(collaborators => repo.collaborators = collaborators)
-               .map(collaborators => repo);
+               .map(collaborators => repo)
+               .catch((err: any) => {
+                 console.log('error');
+                 return Observable.throw(err)
+               });
   }
 
   /**
@@ -36,7 +38,11 @@ export class CollaboratorService {
    */
   deleteCollaborator(repository: Repository, username: string): Observable<any> {
     return this.http
-        .delete(`${this.COLLABORATORS_ENDPOINT}/${repository.accountId}/${repository.username}/${repository.name}/${username}${this.FORMAT_URL}`);
+               .delete(`${this.COLLABORATORS_ENDPOINT}/${repository.accountId}/${repository.username}/${repository.name}/${username}${this.FORMAT_URL}`)
+               .catch((err: any) => {
+                 console.log('error');
+                 return Observable.throw(err)
+               });
   }
 
   /**
@@ -46,6 +52,10 @@ export class CollaboratorService {
    */
   addCollaborator(repository: Repository, user: User): Observable<any> {
     return this.http
-        .put(`${this.COLLABORATORS_ENDPOINT}/${repository.accountId}/${repository.username}/${repository.name}/${user.username}${this.FORMAT_URL}`, JSON.stringify({}));
+               .put(`${this.COLLABORATORS_ENDPOINT}/${repository.accountId}/${repository.username}/${repository.name}/${user.username}${this.FORMAT_URL}`, JSON.stringify({}))
+               .catch((err: any) => {
+                 console.log('error');
+                 return Observable.throw(err)
+               });
   }
 }

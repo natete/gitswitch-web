@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MdDialogRef, MdSnackBar } from '@angular/material';
 import { AutoUnsubscribe } from '../../../shared/auto-unsubscribe/auto-unsubscribe.decorator';
 import { Subscription } from 'rxjs';
 import { UserService } from '../user/user.service';
@@ -16,7 +16,6 @@ export class FindCollaboratorDialog implements OnInit {
 
   title = 'Which one...?';
   private users: User[];
-  private user: User;
   private usersSubscription: Subscription;
   searchUser: string;
   private userSelected: User;
@@ -26,9 +25,11 @@ export class FindCollaboratorDialog implements OnInit {
               private spinnerService: SpinnerService) { }
 
   ngOnInit() {
-
   }
 
+  /**
+   * Search list of users for that username
+   */
   search(){
     this.spinnerService.showSpinner();
 
@@ -37,17 +38,38 @@ export class FindCollaboratorDialog implements OnInit {
                                  .filter(users => !!users)
                                  .do(()=> this.spinnerService.hideSpinner())
                                  .subscribe(
-                                   (users) => this.users = users,
-                                   (error) => console.error(error)
+                                   (users) => {
+                                     this.users = users;
+                                     if(this.users.length ===0) {
+                                       this.users = undefined;
+                                     }
+                                   },
+                                       (error) => {
+                                         this.users = undefined;
+                                         this.spinnerService.hideSpinner();
+                                         console.error(error);
+                                       }
                                  );
   }
 
-  getUserSelect(event) {
-    this.userSelected = event;
+  /**
+   * Get the selected user
+   * @param user data of user
+   */
+  getUserSelect(user) {
+    this.userSelected = user;
   }
 
+  /**
+   * Confirm the selected user to add to repositories
+   * @param user data of user
+   */
   confirmSelection() {
     this.dialogRef.close(this.userSelected);
   }
 
+  deleteUsername(){
+    this.searchUser = undefined;
+    this.users = undefined;
+  }
 }

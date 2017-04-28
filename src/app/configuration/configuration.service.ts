@@ -32,10 +32,8 @@ export class ConfigurationService {
   private refreshConnectedRepositories(): Observable<Repository[]> {
 
     return this.http.get(`${this.ACCOUNTS_ENDPOINT}/all/all?_format=json`)
-    // .map(res => res.json ? res.json() : res)
                .map((repos: any) => repos.map(repo => new Repository(repo)))
                .flatMap(repos => this.collaboratorService.fetchReposCollaborators(repos))
-               // .map(repos => this.addCollaboratorsToRepos(repos))
                .catch((err: any) => Observable.throw(err));
   }
 }

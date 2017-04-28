@@ -9,8 +9,8 @@ import { User } from './user';
 export class UserComponent implements OnInit {
 
   @Input() user: User;
-  @Output() userSelect = new EventEmitter<string>();
-  userSelected: boolean = false;
+  @Input() lastUser: User;
+  @Output() userSelect = new EventEmitter<User>();
 
   constructor() {
   }
@@ -19,10 +19,19 @@ export class UserComponent implements OnInit {
 
   }
 
-  selectedUser(user){
-    this.userSelected = !this.userSelected;
-    if(this.userSelected) {
-      this.userSelect.emit(user);
+  /**
+   * Select a user of de list
+   * @param user data of user.
+   */
+  selectedUser(){
+    if(this.lastUser && this.lastUser.type!==this.user.type){
+      this.lastUser.selected = !this.lastUser.selected;
+    }
+    this.user.selected = !this.user.selected;
+    if(this.user.selected) {
+      this.userSelect.emit(this.user);
+    }else{
+      this.userSelect.emit(null);
     }
   }
 

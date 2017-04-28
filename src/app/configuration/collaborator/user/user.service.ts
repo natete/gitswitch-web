@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Http } from '@angular/http';
 import { User } from './user';
 import { Constants } from '../../../shared/constants';
+import { MdSnackBar } from '@angular/material';
 
 @Injectable()
 export class UserService {
@@ -12,7 +13,8 @@ export class UserService {
 
   private users = new BehaviorSubject<User[]>([]);
 
-  constructor(private http: Http) {}
+  constructor(private http: Http,
+              private snackBar: MdSnackBar) {}
 
   /**
    * Get the observable of the users.
@@ -24,7 +26,12 @@ export class UserService {
         .subscribe((user: any) => {
             this.users.next(user as User[])
           },
-          err => this.users.error(err));
+          err => {
+            if (err.status === 404) {
+              this.snackBar.open('User does not exist', null, { duration: 2000 })
+            }
+            this.users.error(err);
+          });
 
     return this.users.asObservable();
   }

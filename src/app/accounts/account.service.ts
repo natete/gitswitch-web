@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Account } from './account';
 import { Http, URLSearchParams } from '@angular/http';
 import { Constants } from '../shared/constants';
+import { MdSnackBar } from '@angular/material';
 
 @Injectable()
 export class AccountService {
@@ -12,7 +13,8 @@ export class AccountService {
   private storage: Storage = localStorage;
   private accounts = new BehaviorSubject<Account[]>(null);
 
-  constructor(private http: Http) {
+  constructor(private http: Http,
+              private snackBar: MdSnackBar) {
     this.refreshConnectedAccounts()
         .subscribe((res: Account[]) => this.accounts.next(res));
   }
@@ -84,6 +86,10 @@ export class AccountService {
                  currentValue.splice(accountIndex, 1);
                  this.accounts.next(currentValue);
                  return account;
+               })
+               .catch((err: any) => {
+                 console.log('error');
+                 return Observable.throw(err)
                });
   }
 
@@ -114,6 +120,9 @@ export class AccountService {
                    this.accounts.next(currentValue);
                  })
                  .catch((err: any) => {
+                   if (err.status === 409) {
+                     this.snackBar.open('You have already added this account', null, { duration: 2000 })
+                   }
                    console.log('error');
                    return Observable.throw(err)
                  });
@@ -135,7 +144,10 @@ export class AccountService {
   private refreshConnectedAccounts(): Observable<Account[]> {
 
     return this.http.get(`${this.ACCOUNTS_ENDPOINT}/all?_format=json`)
-               .catch((err: any) => Observable.throw(err));
+               .catch((err: any) => {
+                 console.log('error');
+                 return Observable.throw(err)
+               });
   }
 
   /**
