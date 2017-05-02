@@ -4,5 +4,5 @@ import { HttpService } from './http.service';
 import { MdSnackBar } from '@angular/material';
 
 export function httpFactory(backend: XHRBackend, options: RequestOptions, auth: AuthService, snackBar: MdSnackBar) {
-    return new HttpService(backend, options, auth, snackBar);
+    return new HttpService(backend, options, auth);
 }

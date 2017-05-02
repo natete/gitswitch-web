@@ -30,7 +30,7 @@ export class FindCollaboratorDialog implements OnInit {
   /**
    * Search list of users for that username
    */
-  search(){
+  search() {
     this.spinnerService.showSpinner();
 
     // Get the list of users
@@ -40,15 +40,12 @@ export class FindCollaboratorDialog implements OnInit {
                                  .subscribe(
                                    (users) => {
                                      this.users = users;
-                                     if(this.users.length ===0) {
-                                       this.users = undefined;
-                                     }
                                    },
-                                       (error) => {
-                                         this.users = undefined;
-                                         this.spinnerService.hideSpinner();
-                                         console.error(error);
-                                       }
+                                   (error) => {
+                                     this.users = undefined;
+                                     console.error(error);
+                                   },
+                                   () => this.spinnerService.hideSpinner()
                                  );
   }
 
@@ -68,7 +65,7 @@ export class FindCollaboratorDialog implements OnInit {
     this.dialogRef.close(this.userSelected);
   }
 
-  deleteUsername(){
+  deleteUsername() {
     this.searchUser = undefined;
     this.users = undefined;
   }

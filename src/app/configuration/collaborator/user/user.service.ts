@@ -23,14 +23,11 @@ export class UserService {
   getUsers(username: string): Observable<User[]> {
     this.http
         .get(`${this.USERS_URL}/all/${username}${this.FORMAT_URL}`)
-        .subscribe((user: any) => {
-            this.users.next(user as User[])
-          },
+        .subscribe((user: any) => this.users.next(user as User[]),
           err => {
             if (err.status === 404) {
-              this.snackBar.open('User does not exist', null, { duration: 2000 })
+            this.users.next([]);
             }
-            this.users.error(err);
           });
 
     return this.users.asObservable();

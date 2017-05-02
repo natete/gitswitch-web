@@ -40,7 +40,7 @@ import { MdSnackBar } from '@angular/material';
     {
       provide: Http,
       useFactory: httpFactory,
-      deps: [XHRBackend, RequestOptions, AuthService, MdSnackBar]
+      deps: [XHRBackend, RequestOptions, AuthService]
     },
     LoginService,
     TokenService,
