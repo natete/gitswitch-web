@@ -28,9 +28,9 @@ export class PullRequestsListComponent implements OnInit {
                                         .filter(pullRequests => !!pullRequests)
                                         .do(() => this.spinnerService.hideSpinner())
                                         .subscribe(
-        (pullRequests) => this.pullRequests = pullRequests,
-        (error) => console.log(error)
-      );
+                                          (pullRequests) => this.pullRequests = pullRequests,
+                                          (error) => console.log(error)
+                                        );
   }
 
 }
