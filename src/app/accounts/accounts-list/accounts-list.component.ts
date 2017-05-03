@@ -6,6 +6,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 import { SpinnerService } from '../../shared/providers/spinner.service';
 import 'rxjs/add/operator/do';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-accounts-list',
@@ -15,6 +16,9 @@ import 'rxjs/add/operator/do';
 export class AccountsListComponent implements OnInit {
 
   private accounts: Account[];
+  private addAccountSubscription: Subscription;
+  private getAccountsSubscription: Subscription;
+  private dialogSubscription: Subscription;
 
   constructor(private accountService: AccountService,
               private activatedRoute: ActivatedRoute,
@@ -28,20 +32,25 @@ export class AccountsListComponent implements OnInit {
 
     // Capture de URL parameters to check if we are coming back from
     // authorizing a new git account.
-    this.activatedRoute.queryParams
-        .filter((params: Params) => params['code'] && params['state'])
-        .map((params: Params) => ({ code: params['code'], nonce: params['state'], type: params['account'] }))
-        .flatMap((params) => (this.accountService.authorizeAccount(params.code, params.nonce, params.type)))
-        .subscribe(() => this.snackBar.open('Account successfully added', null, { duration: 2000 } as MdSnackBarConfig));
+    this.addAccountSubscription = this.activatedRoute.queryParams
+                                      .filter((params: Params) => params['code'] && params['state'])
+                                      .map((params: Params) => ({
+                                        code: params['code'],
+                                        nonce: params['state'],
+                                        type: params['account']
+                                      }))
+                                      .flatMap(params => (this.accountService.authorizeAccount(params.code, params.nonce, params.type)))
+                                      .do(() => this.spinnerService.hideSpinner())
+                                      .subscribe(() => this.snackBar.open('Account successfully added', null, { duration: 2000 } as MdSnackBarConfig));
 
     // Get the list of accounts
-    this.accountService.getAccounts()
-        .filter(accounts => !!accounts)
-        .do(() => this.spinnerService.hideSpinner())
-        .subscribe(
-          (accounts) => this.accounts = accounts,
-          (error) => console.log(error)
-        );
+    this.getAccountsSubscription = this.accountService.getAccounts()
+                                       .filter(accounts => !!accounts)
+                                       .do(() => this.spinnerService.hideSpinner())
+                                       .subscribe(
+                                         (accounts) => this.accounts = accounts,
+                                         (error) => this.spinnerService.hideSpinner()
+                                       );
   }
 
   /**
@@ -58,8 +67,8 @@ export class AccountsListComponent implements OnInit {
   }
 
   selectAccount(): void {
-    this.dialogService.select('Select Git Source', 'Please select a git service', 'GitHub', 'GitLab')
-        .map(res => res)
-        .subscribe(data => data === 'GitHub' ? this.addAccountGitHub() : this.addAccountGitLab());
+    this.dialogSubscription = this.dialogService.select('Select Git Source', 'Please select a git service', 'GitHub', 'GitLab')
+                                  .map(res => res)
+                                  .subscribe(data => data === 'GitHub' ? this.addAccountGitHub() : this.addAccountGitLab());
   }
 }

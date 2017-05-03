@@ -1,0 +1,31 @@
+@import "../../../assets/scss/variables";
+
+.tag {
+  white-space: nowrap;
+  margin-right: 5px;
+  padding-left: 10px;
+  box-shadow: 1px 2px 1px 0px rgba(23, 35, 45, 0.2);
+  border: 1px solid;
+  border-radius: 15px;
+  overflow: hidden;
+
+  .tag-name {
+    font-size: 14px;
+    letter-spacing: 0.3px;
+  }
+
+  .remove-tag-button {
+    margin-left: 5px;
+    display: inline-block;
+    padding: 0;
+    min-width: 38px;
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    margin-left: 5px;
+    line-height: 27px;
+    border-left: 1px solid rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      color: $dark-background !important;
+    }
+  }
+}

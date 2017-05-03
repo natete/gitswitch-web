@@ -1,0 +1,57 @@
+.app-find-collaborator-dialog {
+  .mat-dialog-title {
+    margin: -24px -24px 20px -24px;
+    padding: 24px;
+    font-size: 35px;
+  }
+
+  .mat-dialog-content {
+    margin-bottom: 24px;
+
+    md-input-container {
+      min-width: 17em;
+    }
+
+    .search-container {
+
+      .search-input {
+        height: 100%;
+        width: 100%;
+        border: none;
+        padding: 0 10px;
+      }
+
+      .clear-search,
+      .search-button {
+        padding: 0;
+        min-width: 55px;
+        height: 100%;
+      }
+
+      .clear-search {
+        right:-2em;
+      }
+
+      .search-button {
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+      }
+
+    }
+
+  }
+
+  .mat-dialog-actions {
+    margin: 0 -24px -24px -24px;
+
+    button {
+      width: 50%;
+    }
+  }
+
+  .no-users-container {
+    height: 100px;
+    width: 100%;
+    text-align: center;
+  }
+}

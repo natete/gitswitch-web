@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
+import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 import { RoutesModule } from './core/routes/routes.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -13,27 +13,27 @@ import { AccountsModule } from './accounts/accounts.module';
 import { SharedModule } from './shared/shared.module';
 import { PullRequestsModule } from './pull-requests/pull-requests.module';
 import { LoginService } from './login/login.service';
-import { ConfigurationService } from './configuration/configuration.service';
 import { TokenService } from './core/auth/token.service';
-import { ConfigurationComponent } from './configuration/configuration.component';
-import { RepositoryComponent } from './configuration/repository/repository.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ConfigurationModule } from './configuration/configuration.module';
+import { MdSnackBar } from '@angular/material';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    ConfigurationComponent,
-    RepositoryComponent
   ],
   imports: [
     AccountsModule,
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     PullRequestsModule,
     RoutesModule,
-    SharedModule
+    SharedModule,
+    ConfigurationModule
   ],
   providers: [
     AuthService,
@@ -44,7 +44,6 @@ import { RepositoryComponent } from './configuration/repository/repository.compo
     },
     LoginService,
     TokenService,
-    ConfigurationService
   ],
   bootstrap: [AppComponent]
 })

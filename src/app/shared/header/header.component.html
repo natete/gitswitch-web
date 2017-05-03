@@ -1,8 +1,9 @@
 <md-toolbar color="primary">
-  <div fxLayout="row" fxLayoutAlign="center center" fxFill>
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxFill>
     <button md-button disableRipple="true" [routerLink]="['/home']">
       <img src="/assets/img/logo.png" alt="App Logo" class="toolbar-logo"/>
     </button>
+    <h1>{{title}}</h1>
     <app-logout></app-logout>
   </div>
 </md-toolbar>

@@ -19,6 +19,10 @@
   .primary-color-font {
     color: mat-color($primaryPalette, default) !important;
   }
+
+  .gray-color-font {
+    color: mat-color($primaryPalette, A700) !important;
+  }
 }
 
 
@@ -38,6 +42,11 @@
   /* Class to use the accent color as text color */
   .accent-color-font {
     color: mat-color($accentPalette, default) !important;
+  }
+
+  /* Class to use the accent color as border color */
+  .accent-color-border {
+    border-color: mat-color($accentPalette, default) !important;
   }
 }
 
