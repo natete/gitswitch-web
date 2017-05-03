@@ -43,7 +43,7 @@ export class ConfigurationComponent implements OnInit {
                                         .filter(repositories => !!repositories)
                                         .do(()=> this.spinnerService.hideSpinner())
                                         .subscribe(
-        (repositories) => this.repositories = repositories,
+                                          (repositories) => this.repositories = repositories,
                                           (error) => console.error(error)
       );
   }
@@ -59,7 +59,7 @@ export class ConfigurationComponent implements OnInit {
                                     .subscribe(result => {
                                       if(result != undefined){
                                         this.user = result;
-                                      this.getRepositoriesFiltered();
+                                        this.getRepositoriesFiltered();
                                       }
                                     });
 
@@ -75,9 +75,9 @@ export class ConfigurationComponent implements OnInit {
         this.checkIsCollaborator(repository);
       }
     }
-    if(this.reposFiltered.length != 0){
+    if (this.reposFiltered.length != 0){
       this.repositories = this.reposFiltered;
-    }else{
+    } else{
       this.snackBar.open('User has not repositories to add collaborator', null, { duration: 2000 } as MdSnackBarConfig);
     }
     this.spinnerService.hideSpinner();
@@ -109,20 +109,21 @@ export class ConfigurationComponent implements OnInit {
                 for (const repository of reposSelected) {
                     this.collaboratorService.addCollaborator(repository, this.user)
                         .do(() => this.spinnerService.hideSpinner())
-                        .subscribe(() => {
-                          const collaborator = new Collaborator();
-                          collaborator.id = this.user.id;
-                          collaborator.username = this.user.username;
-                          collaborator.photoUrl = this.user.photoUrl;
-                          repository.collaborators.push(collaborator);
-                        },
+                        .subscribe(
+                          () => {
+                            const collaborator = new Collaborator();
+                            collaborator.id = this.user.id;
+                            collaborator.username = this.user.username;
+                            collaborator.photoUrl = this.user.photoUrl;
+                            repository.collaborators.push(collaborator);
+                          },
                           error => console.error(error),
                           () => console.log('completed')
                         );
                 }
           this.ngOnInit();
           this.snackBar.open('Collaborator successfully added', null, { duration: 2000 } as MdSnackBarConfig);
-        }else{
+        } else {
           this.spinnerService.hideSpinner();
           this.snackBar.open('You must select almost one repository', null, { duration: 2000 } as MdSnackBarConfig);
         }
@@ -135,7 +136,7 @@ export class ConfigurationComponent implements OnInit {
   private checkIsCollaborator(repository: Repository): void {
     let found = false;
     if (repository.collaborators != null) {
-      found = repository.collaborators.find(collaborator => collaborator.username == this.user.username) == undefined ? false : true;
+      found = !!repository.collaborators.find(collaborator => collaborator.username == this.user.username);
     }
 
     if (!found) {
