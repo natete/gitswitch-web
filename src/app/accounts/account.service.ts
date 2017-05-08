@@ -34,13 +34,13 @@ export class AccountService {
     const nonce = this.createNonce();
     this.storage.setItem('GitHubNonce', nonce);
 
-    this.http.get('/assets/json/github-client.json')
+    this.http.get(`${Constants.BACKEND_URL}/api/simple_git/connector?_format=json`)
         .subscribe(
           (gitHubClient: any) => {
             const params = new URLSearchParams();
 
             params.set('client_id', gitHubClient.client_id);
-            params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}:${window.location.port}/accounts?account=hub`);
+            params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=hub`);
             params.set('state', nonce);
             params.set('scope', 'user, repo');
             params.set('allow_signup', 'false');
@@ -54,13 +54,13 @@ export class AccountService {
     const nonce = this.createNonce();
     this.storage.setItem('GitLabNonce', nonce);
 
-    this.http.get('/assets/json/gitlab-client.json')
+    this.http.get(`${Constants.BACKEND_URL}/api/simple_git/connector?_format=json`)
         .subscribe(
           (gitHubClient: any) => {
             const params = new URLSearchParams();
 
             params.set('client_id', gitHubClient.client_id);
-            params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}:${window.location.port}/accounts?account=lab`);
+            params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=lab`);
             params.set('state', nonce);
             params.set('response_type', 'code');
             location.href = 'https://gitlab.com/oauth/authorize?' + params.toString();
