@@ -39,7 +39,7 @@ export class AccountService {
           (gitHubClient: any) => {
             const params = new URLSearchParams();
 
-            params.set('client_id', gitHubClient.client_id);
+            params.set('client_id', gitHubClient[0].client_id);
             params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=hub`);
             params.set('state', nonce);
             params.set('scope', 'user, repo');
@@ -59,7 +59,7 @@ export class AccountService {
           (gitHubClient: any) => {
             const params = new URLSearchParams();
 
-            params.set('client_id', gitHubClient.client_id);
+            params.set('client_id', gitHubClient[0].client_id);
             params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=lab`);
             params.set('state', nonce);
             params.set('response_type', 'code');
