@@ -40,7 +40,7 @@ export class AccountService {
         (gitHubClient: any) => {
           const params = new URLSearchParams();
           for (let client of gitHubClient) {
-            if (client === this.GITHUB) {
+            if (client.type === this.GITHUB) {
               params.set('client_id', client.client_id);
               params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=hub`);
               params.set('state', nonce);
@@ -63,7 +63,7 @@ export class AccountService {
         (gitLabClient: any) => {
           const params = new URLSearchParams();
           for (let client of gitLabClient) {
-            if (client === this.GITLAB) {
+            if (client.type === this.GITLAB) {
               params.set('client_id', client.client_id);
               params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=lab`);
               params.set('state', nonce);
