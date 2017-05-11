@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
-import {BehaviorSubject, Observable} from "rxjs";
-import {Account} from "./account";
-import {Http, URLSearchParams} from "@angular/http";
-import {Constants} from "../shared/constants";
-import {MdSnackBar} from "@angular/material";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Account } from './account';
+import { Http, URLSearchParams } from '@angular/http';
+import { Constants } from '../shared/constants';
+import { MdSnackBar } from '@angular/material';
 
 @Injectable()
 export class AccountService {
@@ -95,7 +95,6 @@ export class AccountService {
         return account;
       })
       .catch((err: any) => {
-        console.log('error');
         return Observable.throw(err)
       });
   }
@@ -130,7 +129,6 @@ export class AccountService {
           if (err.status === 409) {
             this.snackBar.open('You have already added this account', null, {duration: 2000})
           }
-          console.log('error');
           return Observable.throw(err)
         });
     }
@@ -152,7 +150,6 @@ export class AccountService {
 
     return this.http.get(`${this.ACCOUNTS_ENDPOINT}/all?_format=json`)
       .catch((err: any) => {
-        console.log('error');
         return Observable.throw(err)
       });
   }
