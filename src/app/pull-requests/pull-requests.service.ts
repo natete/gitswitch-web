@@ -22,18 +22,18 @@ export class PullRequestsService {
     return this.pullRequests.asObservable();
   }
 
-refreshPullRequestList(): void {
-	this.getRefreshPullRequestList()
-      .subscribe((res: PullRequest[]) => this.pullRequests.next(res));
-}
+  refreshPullRequestList(): void {
+    this.getPullRequestList()
+        .subscribe((res: PullRequest[]) => this.pullRequests.next(res));
+  }
 
   /**
    * Reload the pull request list.
    * @returns {Observable<R>}
    */
-private getRefreshPullRequestList(): Observable<PullRequest[]> {
+  private getPullRequestList(): Observable<PullRequest[]> {
     return this.http.get(`${this.PULLREQUEST_ENDPOINT}`)
-      .catch((err: any) => Observable.throw(err));
+               .catch((err: any) => Observable.throw(err));
   }
 
 }

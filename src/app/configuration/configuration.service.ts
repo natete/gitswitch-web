@@ -24,16 +24,16 @@ export class ConfigurationService {
     return this.repositories.asObservable();
   }
 
-refreshConnectedRepositories(): void {
-	this.getRefreshConnectedRepositories()
+  refreshConnectedRepositories(): void {
+    this.getConnectedRepositoriesList()
         .subscribe((res: Repository[]) => this.repositories.next(res));
-}
+  }
 
   /**
    * Get the list of connected accounts.
    * @returns {Observable<Repository[]>}.
    */
- private getRefreshConnectedRepositories(): Observable<Repository[]> {
+  private getConnectedRepositoriesList(): Observable<Repository[]> {
 
     return this.http.get(`${this.ACCOUNTS_ENDPOINT}/all/all?_format=json`)
                .map((repos: any) => repos.map(repo => new Repository(repo)))

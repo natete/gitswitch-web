@@ -6,7 +6,6 @@ import { DialogsService } from '../../shared/dialogs/dialogs.service';
 import { SpinnerService } from '../../shared/providers/spinner.service';
 import 'rxjs/add/operator/do';
 import { AutoUnsubscribe } from '../../shared/auto-unsubscribe/auto-unsubscribe.decorator';
-import { Subscription } from 'rxjs';
 import { ConfigurationService } from '../../configuration/configuration.service';
 import { PullRequestsService } from '../../pull-requests/pull-requests.service';
 
