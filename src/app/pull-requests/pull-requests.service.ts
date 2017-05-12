@@ -11,8 +11,7 @@ export class PullRequestsService {
   private pullRequests = new BehaviorSubject<PullRequest[]>(null);
 
   constructor(private http: Http) {
-    this.refreshPullRequestList()
-      .subscribe((res: PullRequest[]) => this.pullRequests.next(res));
+    this.refreshPullRequestList();
   }
 
   /**
@@ -23,11 +22,16 @@ export class PullRequestsService {
     return this.pullRequests.asObservable();
   }
 
+refreshPullRequestList(): void {
+	this.getRefreshPullRequestList()
+      .subscribe((res: PullRequest[]) => this.pullRequests.next(res));
+}
+
   /**
    * Reload the pull request list.
    * @returns {Observable<R>}
    */
-  private refreshPullRequestList(): Observable<PullRequest[]> {
+private getRefreshPullRequestList(): Observable<PullRequest[]> {
     return this.http.get(`${this.PULLREQUEST_ENDPOINT}`)
       .catch((err: any) => Observable.throw(err));
   }
