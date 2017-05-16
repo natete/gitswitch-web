@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef, MdSnackBar } from '@angular/material';
+import { MdDialogRef } from '@angular/material';
 import { AutoUnsubscribe } from '../../../shared/auto-unsubscribe/auto-unsubscribe.decorator';
 import { Subscription } from 'rxjs';
 import { UserService } from '../user/user.service';
@@ -15,10 +15,10 @@ import { User } from '../user/user';
 export class FindCollaboratorDialog implements OnInit {
 
   title = 'Which one...?';
-  private users: User[];
+  users: User[];
   private usersSubscription: Subscription;
   searchUser: string;
-  private userSelected: User;
+  userSelected: User;
 
   constructor(public dialogRef: MdDialogRef<FindCollaboratorDialog>,
               private userService: UserService,
@@ -59,7 +59,6 @@ export class FindCollaboratorDialog implements OnInit {
 
   /**
    * Confirm the selected user to add to repositories
-   * @param user data of user
    */
   confirmSelection() {
     this.dialogRef.close(this.userSelected);
