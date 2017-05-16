@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 @AutoUnsubscribe()
 export class PullRequestsListComponent implements OnInit {
 
-  private pullRequests: PullRequest[];
+  pullRequests: PullRequest[];
   private pullRequestsSubscription: Subscription;
 
   constructor(private pullRequestService: PullRequestsService,

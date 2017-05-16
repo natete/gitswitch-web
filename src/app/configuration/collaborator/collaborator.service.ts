@@ -15,9 +15,8 @@ export class CollaboratorService {
   constructor(private http: Http) { }
 
   fetchReposCollaborators(repos: Repository[]): Observable<Repository[]> {
-    return Observable.forkJoin(repos.map(
-      repo => repo.canAdmin ? this.fetchRepoCollaborators(repo) : Observable.of(repo))
-    );
+    return repos.length !== 0 ? Observable.forkJoin(repos.map(
+        repo => repo.canAdmin ? this.fetchRepoCollaborators(repo) : Observable.of(repo))) : Observable.of(repos);
   }
 
   fetchRepoCollaborators(repo: Repository): Observable<Repository> {

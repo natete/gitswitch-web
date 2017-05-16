@@ -5,7 +5,7 @@ import { SpinnerService } from '../shared/providers/spinner.service';
 import 'rxjs/add/operator/do';
 import { AutoUnsubscribe } from '../shared/auto-unsubscribe/auto-unsubscribe.decorator';
 import { Subscription } from 'rxjs';
-import { MdDialog, MdSnackBarConfig, MdSnackBar } from '@angular/material';
+import { MdDialog, MdSnackBar, MdSnackBarConfig } from '@angular/material';
 import { FindCollaboratorDialog } from './collaborator/add-collaborator/find-collaborator-dialog.component';
 import { User } from './collaborator/user/user';
 import { CollaboratorService } from './collaborator/collaborator.service';
@@ -19,8 +19,8 @@ import { Collaborator } from './collaborator/collaborator';
 @AutoUnsubscribe()
 export class ConfigurationComponent implements OnInit {
 
-  private repositories: Repository[];
-  private reposFiltered: Repository[]=[];
+  repositories: Repository[];
+  reposFiltered: Repository[] = [];
   private repositoriesSubscription: Subscription;
   private dialogSubscription: Subscription;
   searchTerm: string;

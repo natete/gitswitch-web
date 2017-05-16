@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
     home: 'Pull Requests',
     accounts: 'Accounts'
   };
-  private title: string;
+  title: string;
 
   constructor(private router: Router) {
     router.events
