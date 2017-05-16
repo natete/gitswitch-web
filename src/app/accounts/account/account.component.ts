@@ -6,7 +6,8 @@ import { DialogsService } from '../../shared/dialogs/dialogs.service';
 import { SpinnerService } from '../../shared/providers/spinner.service';
 import 'rxjs/add/operator/do';
 import { AutoUnsubscribe } from '../../shared/auto-unsubscribe/auto-unsubscribe.decorator';
-import { Subscription } from 'rxjs';
+import { ConfigurationService } from '../../configuration/configuration.service';
+import { PullRequestsService } from '../../pull-requests/pull-requests.service';
 
 @Component({
   selector: 'app-account',
@@ -21,7 +22,9 @@ export class AccountComponent implements OnInit {
   constructor(private accountService: AccountService,
               private dialogService: DialogsService,
               private spinnerService: SpinnerService,
-              private snackBar: MdSnackBar) { }
+              private snackBar: MdSnackBar,
+	      private configurationService: ConfigurationService,
+              private pullRequestsService: PullRequestsService) { }
 
   ngOnInit() {
   }
@@ -35,7 +38,11 @@ export class AccountComponent implements OnInit {
         .filter(res => res)
         .do(() => this.spinnerService.showSpinner())
         .toPromise()
-        .then(() => this.performRemoveAccount(account));
+        .then(() => {
+	  this.performRemoveAccount(account);
+	  this.configurationService.refreshConnectedRepositories();
+          this.pullRequestsService.refreshPullRequestList();
+	});
   }
 
   private performRemoveAccount(account: Account) {
