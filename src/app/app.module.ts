@@ -16,13 +16,12 @@ import { LoginService } from './login/login.service';
 import { TokenService } from './core/auth/token.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigurationModule } from './configuration/configuration.module';
-import { MdSnackBar } from '@angular/material';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent,
+    HomeComponent
   ],
   imports: [
     AccountsModule,
@@ -43,7 +42,7 @@ import { MdSnackBar } from '@angular/material';
       deps: [XHRBackend, RequestOptions, AuthService]
     },
     LoginService,
-    TokenService,
+    TokenService
   ],
   bootstrap: [AppComponent]
 })

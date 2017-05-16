@@ -10,9 +10,9 @@ import { SpinnerService } from '../shared/providers/spinner.service';
 })
 export class LoginComponent {
 
-  private username: string = '';
-  private password: string = '';
-  private errorMessage: string;
+  username: string = '';
+  password: string = '';
+  errorMessage: string;
 
   constructor(private loginService: LoginService,
               private spinnerService: SpinnerService,

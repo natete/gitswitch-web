@@ -1,9 +1,8 @@
-import {Component, OnInit, Input, style, animate, transition, trigger} from '@angular/core';
-import {Repository} from "./repository";
+import { animate, Component, Input, OnInit, style, transition, trigger } from '@angular/core';
+import { Repository } from './repository';
 import { CollaboratorService } from '../collaborator/collaborator.service';
 import { SpinnerService } from '../../shared/providers/spinner.service';
-import { MdSnackBar } from '@angular/material';
-import { Observable } from 'rxjs';
+import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 
 @Component({
   selector: 'app-repository',
@@ -54,7 +53,7 @@ export class RepositoryComponent implements OnInit {
       this.spinnerService.showSpinner();
       this.collaboratorService.deleteCollaborator(this.repository, username)
           .do(() => this.spinnerService.hideSpinner())
-          .do(() => this.snackBar.open('Collaborator successfully removed', null, { duration: 2000 }))
+          .do(() => this.snackBar.open('Collaborator successfully removed', null, { duration: 2000 } as MdSnackBarConfig))
           .subscribe(
             () => {
               this.repository.collaborators = this.repository.collaborators.filter(col => col.username !== username)
