@@ -13,8 +13,7 @@ export class ConfigurationService {
 
   constructor(private http: Http,
               private collaboratorService: CollaboratorService) {
-    this.refreshConnectedRepositories()
-        .subscribe((res: Repository[]) => this.repositories.next(res));
+    this.refreshConnectedRepositories();
   }
 
   /**
@@ -25,11 +24,16 @@ export class ConfigurationService {
     return this.repositories.asObservable();
   }
 
+  refreshConnectedRepositories(): void {
+    this.getConnectedRepositoriesList()
+        .subscribe((res: Repository[]) => this.repositories.next(res));
+  }
+
   /**
    * Get the list of connected accounts.
    * @returns {Observable<Repository[]>}.
    */
-  private refreshConnectedRepositories(): Observable<Repository[]> {
+  private getConnectedRepositoriesList(): Observable<Repository[]> {
 
     return this.http.get(`${this.ACCOUNTS_ENDPOINT}/all/all?_format=json`)
                .map((repos: any) => repos.map(repo => new Repository(repo)))

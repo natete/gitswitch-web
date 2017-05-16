@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Account } from './account';
-import { Http, URLSearchParams } from '@angular/http';
-import { Constants } from '../shared/constants';
-import { MdSnackBar } from '@angular/material';
+import {Injectable} from "@angular/core";
+import {BehaviorSubject, Observable} from "rxjs";
+import {Account} from "./account";
+import {Http, URLSearchParams} from "@angular/http";
+import {Constants} from "../shared/constants";
+import {MdSnackBar} from "@angular/material";
 
 @Injectable()
 export class AccountService {
