@@ -19,8 +19,8 @@ import { Collaborator } from './collaborator/collaborator';
 @AutoUnsubscribe()
 export class ConfigurationComponent implements OnInit {
 
-  private repositories: Repository[];
-  private reposFiltered: Repository[]=[];
+  repositories: Repository[];
+  reposFiltered: Repository[] = [];
   private repositoriesSubscription: Subscription;
   private dialogSubscription: Subscription;
   searchTerm: string;

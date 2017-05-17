@@ -39,17 +39,14 @@ export class AccountService {
       .subscribe(
         (gitHubClient: any) => {
           const params = new URLSearchParams();
-          for (let client of gitHubClient) {
-            if (client.type === this.GITHUB) {
-              params.set('client_id', client.client_id);
-              params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=hub`);
-              params.set('state', nonce);
-              params.set('scope', 'user, repo');
-              params.set('allow_signup', 'false');
+          let client = gitHubClient.find((client: any) => client.type === this.GITHUB);
+          params.set('client_id', client.client_id);
+          params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=hub`);
+          params.set('state', nonce);
+          params.set('scope', 'user, repo');
+          params.set('allow_signup', 'false');
 
-              location.href = 'https://github.com/login/oauth/authorize?' + params.toString();
-            }
-          }
+          location.href = 'https://github.com/login/oauth/authorize?' + params.toString();
         }
       )
   }
@@ -62,15 +59,12 @@ export class AccountService {
       .subscribe(
         (gitLabClient: any) => {
           const params = new URLSearchParams();
-          for (let client of gitLabClient) {
-            if (client.type === this.GITLAB) {
-              params.set('client_id', client.client_id);
-              params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=lab`);
-              params.set('state', nonce);
-              params.set('response_type', 'code');
-              location.href = 'https://gitlab.com/oauth/authorize?' + params.toString();
-            }
-          }
+          let client = gitLabClient.find((client: any) => client.type === this.GITLAB);
+          params.set('client_id', client.client_id);
+          params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=lab`);
+          params.set('state', nonce);
+          params.set('response_type', 'code');
+          location.href = 'https://gitlab.com/oauth/authorize?' + params.toString();
         }
       )
   }

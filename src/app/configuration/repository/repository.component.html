@@ -20,8 +20,11 @@
           <div fxLayout="row" fxLayoutAlign="start center" fxFill>
             <div fxLayout="row" fxLayoutAlign="start center" fxFill>
               <i class="fa fa-user-circle code-icon" aria-hidden="true"></i>
-              <span [ngClass]="{'primary-color-font': repository.selected, 'accent-color-font': !repository.selected}" fxHide.xs
-                    fxHide.sm>{{repository.username}}</span>
+              <span [ngClass]="{'primary-color-font': repository.selected, 'accent-color-font': !repository.selected}"
+                    fxHide.xs
+                    fxHide.sm>
+                {{repository.username}}
+              </span>
             </div>
           </div>
         </div>
@@ -31,8 +34,9 @@
              fxHide.md fxHide.sm fxHide.xs>
           <div fxLayout="row" fxLayoutAlign="center center" fxFill>
             <i class="fa fa-exclamation-circle issues-icon"></i>
-            <span [ngClass]="{'primary-color-font': repository.selected, 'accent-color-font': !repository.selected}">{{repository
-              .issues}}</span>
+            <span [ngClass]="{'primary-color-font': repository.selected, 'accent-color-font': !repository.selected}">
+              {{repository.issues}}
+            </span>
           </div>
         </div>
 
@@ -41,8 +45,9 @@
              fxHide.md fxHide.sm fxHide.xs>
           <div fxLayout="row" fxLayoutAlign="center center" fxFill>
             <i class="fa fa-code code-icon" aria-hidden="true"></i>
-            <span [ngClass]="{'primary-color-font': repository.selected, 'accent-color-font': !repository.selected}">{{repository
-              .type}}</span>
+            <span [ngClass]="{'primary-color-font': repository.selected, 'accent-color-font': !repository.selected}">
+              {{repository.type}}
+            </span>
           </div>
         </div>
 
@@ -51,8 +56,9 @@
              fxHide.md fxHide.sm fxHide.xs>
           <div fxLayout="row" fxLayoutAlign="center center" fxFill>
             <i class="fa fa-clock-o time-icon" aria-hidden="true"></i>
-            <span [ngClass]="{'primary-color-font': repository.selected, 'accent-color-font': !repository.selected}">{{repository
-              .age}}</span>
+            <span [ngClass]="{'primary-color-font': repository.selected, 'accent-color-font': !repository.selected}">
+              {{repository.age}}
+            </span>
           </div>
         </div>
 

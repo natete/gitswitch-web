@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class AccountsListComponent implements OnInit {
 
-  private accounts: Account[];
+  accounts: Account[];
   private addAccountSubscription: Subscription;
   private getAccountsSubscription: Subscription;
   private dialogSubscription: Subscription;
