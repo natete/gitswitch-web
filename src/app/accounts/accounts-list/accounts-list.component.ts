@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
 import { DialogsService } from '../../shared/dialogs/dialogs.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 import { SpinnerService } from '../../shared/providers/spinner.service';
 import 'rxjs/add/operator/do';
@@ -20,7 +20,8 @@ export class AccountsListComponent implements OnInit {
   private getAccountsSubscription: Subscription;
   private dialogSubscription: Subscription;
 
-  constructor(private accountService: AccountService,
+  constructor(private router: Router,
+              private accountService: AccountService,
               private activatedRoute: ActivatedRoute,
               private spinnerService: SpinnerService,
               private snackBar: MdSnackBar,
@@ -39,9 +40,13 @@ export class AccountsListComponent implements OnInit {
                                         nonce: params['state'],
                                         type: params['account']
                                       }))
+                                      .do(() => this.spinnerService.showSpinner())
                                       .flatMap(params => (this.accountService.authorizeAccount(params.code, params.nonce, params.type)))
-                                      .do(() => this.spinnerService.hideSpinner())
-                                      .subscribe(() => this.snackBar.open('Account successfully added', null, { duration: 2000 } as MdSnackBarConfig));
+                                      .subscribe(() => {
+                                        this.snackBar.open('Account successfully added', null, { duration: 2000 } as MdSnackBarConfig);
+                                        this.spinnerService.hideSpinner();
+                                        this.router.navigate(['/accounts']);
+                                      });
 
     // Get the list of accounts
     this.getAccountsSubscription = this.accountService.getAccounts()
@@ -53,9 +58,6 @@ export class AccountsListComponent implements OnInit {
                                        );
   }
 
-  /**
-   * Add a new account.
-   */
   addAccountGitHub(): void {
     this.spinnerService.showSpinner();
     this.accountService.addAccountGitHub();

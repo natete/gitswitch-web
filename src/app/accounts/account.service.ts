@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
-import {BehaviorSubject, Observable} from "rxjs";
-import {Account} from "./account";
-import {Http, URLSearchParams} from "@angular/http";
-import {Constants} from "../shared/constants";
-import {MdSnackBar} from "@angular/material";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Account } from './account';
+import { Http, URLSearchParams } from '@angular/http';
+import { Constants } from '../shared/constants';
+import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 
 @Injectable()
 export class AccountService {
@@ -127,7 +127,7 @@ export class AccountService {
         })
         .catch((err: any) => {
           if (err.status === 409) {
-            this.snackBar.open('You have already added this account', null, {duration: 2000})
+            this.snackBar.open('You have already added this account', null, { duration: 2000 } as MdSnackBarConfig)
           }
           return Observable.throw(err)
         });
@@ -160,10 +160,10 @@ export class AccountService {
    * @returns {string} The generated code.
    */
   private createNonce(): string {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let text = "";
+    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for (var i = 0; i < 40; i++) {
+    for (let i = 0; i < 40; i++) {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
 
