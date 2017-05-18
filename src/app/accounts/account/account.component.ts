@@ -40,8 +40,6 @@ export class AccountComponent implements OnInit {
         .toPromise()
         .then(() => {
           this.performRemoveAccount(account);
-          // this.configurationService.refreshConnectedRepositories();
-          // this.pullRequestsService.refreshPullRequestList();
         });
   }
 
