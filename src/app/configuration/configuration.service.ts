@@ -28,6 +28,10 @@ export class ConfigurationService {
         .subscribe((res: Repository[]) => this.repositories.next(res));
   }
 
+  clearData() {
+    this.repositories.next(null);
+  }
+
   /**
    * Get the list of connected accounts.
    * @returns {Observable<Repository[]>}.

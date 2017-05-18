@@ -4,6 +4,8 @@ import { Account } from './account';
 import { Http, URLSearchParams } from '@angular/http';
 import { Constants } from '../shared/constants';
 import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
+import { ConfigurationService } from '../configuration/configuration.service';
+import { PullRequestsService } from '../pull-requests/pull-requests.service';
 
 @Injectable()
 export class AccountService {
@@ -15,9 +17,11 @@ export class AccountService {
   private accounts = new BehaviorSubject<Account[]>(null);
 
   constructor(private http: Http,
-              private snackBar: MdSnackBar) {
+              private snackBar: MdSnackBar,
+              private configurationService: ConfigurationService,
+              private pullRequestsService: PullRequestsService) {
     this.refreshConnectedAccounts()
-      .subscribe((res: Account[]) => this.accounts.next(res));
+        .subscribe((res: Account[]) => this.accounts.next(res));
   }
 
   /**
@@ -36,19 +40,19 @@ export class AccountService {
     this.storage.setItem('GitHubNonce', nonce);
 
     this.http.get(`${Constants.BACKEND_URL}/api/simple_git/connector?_format=json`)
-      .subscribe(
-        (gitHubClient: any) => {
-          const params = new URLSearchParams();
-          let client = gitHubClient.find((client: any) => client.type === this.GITHUB);
-          params.set('client_id', client.client_id);
-          params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=hub`);
-          params.set('state', nonce);
-          params.set('scope', 'user, repo');
-          params.set('allow_signup', 'false');
+        .subscribe(
+          (gitHubClient: any) => {
+            const params = new URLSearchParams();
+            let client = gitHubClient.find((client: any) => client.type === this.GITHUB);
+            params.set('client_id', client.client_id);
+            params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=hub`);
+            params.set('state', nonce);
+            params.set('scope', 'user, repo');
+            params.set('allow_signup', 'false');
 
-          location.href = 'https://github.com/login/oauth/authorize?' + params.toString();
-        }
-      )
+            location.href = 'https://github.com/login/oauth/authorize?' + params.toString();
+          }
+        )
   }
 
   addAccountGitLab(): void {
@@ -56,17 +60,17 @@ export class AccountService {
     this.storage.setItem('GitLabNonce', nonce);
 
     this.http.get(`${Constants.BACKEND_URL}/api/simple_git/connector?_format=json`)
-      .subscribe(
-        (gitLabClient: any) => {
-          const params = new URLSearchParams();
-          let client = gitLabClient.find((client: any) => client.type === this.GITLAB);
-          params.set('client_id', client.client_id);
-          params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=lab`);
-          params.set('state', nonce);
-          params.set('response_type', 'code');
-          location.href = 'https://gitlab.com/oauth/authorize?' + params.toString();
-        }
-      )
+        .subscribe(
+          (gitLabClient: any) => {
+            const params = new URLSearchParams();
+            let client = gitLabClient.find((client: any) => client.type === this.GITLAB);
+            params.set('client_id', client.client_id);
+            params.set('redirect_uri', `${window.location.protocol}//${window.location.hostname}/gitswitch/accounts?account=lab`);
+            params.set('state', nonce);
+            params.set('response_type', 'code');
+            location.href = 'https://gitlab.com/oauth/authorize?' + params.toString();
+          }
+        )
   }
 
   /**
@@ -80,17 +84,18 @@ export class AccountService {
     params.set('accountId', account.id.toString());
 
     return this.http
-      .delete(`${this.ACCOUNTS_ENDPOINT}/${account.accountId}`)
-      .map(() => {
-        let currentValue: Account[] = this.accounts.getValue();
-        const accountIndex = currentValue.indexOf(account);
-        currentValue.splice(accountIndex, 1);
-        this.accounts.next(currentValue);
-        return account;
-      })
-      .catch((err: any) => {
-        return Observable.throw(err)
-      });
+               .delete(`${this.ACCOUNTS_ENDPOINT}/${account.accountId}`)
+               .map(() => {
+                 let currentValue: Account[] = this.accounts.getValue();
+                 const accountIndex = currentValue.indexOf(account);
+                 currentValue.splice(accountIndex, 1);
+                 this.accounts.next(currentValue);
+                 this.clearLoadedData();
+                 return account;
+               })
+               .catch((err: any) => {
+                 return Observable.throw(err)
+               });
   }
 
   /**
@@ -113,18 +118,18 @@ export class AccountService {
     }
     if (currentNonce === nonce) {
 
-      return this.http.post(`${this.ACCOUNTS_ENDPOINT}?_format=json`, {code: code, state: nonce})
-        .map((res) => {
-          const currentValue: Account[] = this.accounts.getValue();
-          currentValue.push(new Account(res));
-          this.accounts.next(currentValue);
-        })
-        .catch((err: any) => {
-          if (err.status === 409) {
-            this.snackBar.open('You have already added this account', null, { duration: 2000 } as MdSnackBarConfig)
-          }
-          return Observable.throw(err)
-        });
+      return this.http.post(`${this.ACCOUNTS_ENDPOINT}?_format=json`, { code: code, state: nonce })
+                 .map((res) => {
+                   const currentValue: Account[] = this.accounts.getValue();
+                   currentValue.push(new Account(res));
+                   this.accounts.next(currentValue);
+                 })
+                 .catch((err: any) => {
+                   if (err.status === 409) {
+                     this.snackBar.open('You have already added this account', null, { duration: 2000 } as MdSnackBarConfig)
+                   }
+                   return Observable.throw(err)
+                 });
     }
   }
 
@@ -143,9 +148,9 @@ export class AccountService {
   private refreshConnectedAccounts(): Observable<Account[]> {
 
     return this.http.get(`${this.ACCOUNTS_ENDPOINT}/all?_format=json`)
-      .catch((err: any) => {
-        return Observable.throw(err)
-      });
+               .catch((err: any) => {
+                 return Observable.throw(err)
+               });
   }
 
   /**
@@ -164,4 +169,8 @@ export class AccountService {
     return text;
   }
 
+  private clearLoadedData() {
+    this.pullRequestsService.clearData();
+    this.configurationService.clearData();
+  }
 }

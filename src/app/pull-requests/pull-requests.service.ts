@@ -28,6 +28,10 @@ export class PullRequestsService {
         .subscribe((res: PullRequest[]) => this.pullRequests.next(res.map(pr => new PullRequest(this.datePipe, pr))));
   }
 
+  clearData() {
+    this.pullRequests.next(null);
+  }
+
   /**
    * Reload the pull request list.
    * @returns {Observable<R>}
