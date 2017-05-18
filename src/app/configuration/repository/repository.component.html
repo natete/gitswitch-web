@@ -57,7 +57,7 @@
           <div fxLayout="row" fxLayoutAlign="center center" fxFill>
             <i class="fa fa-clock-o time-icon" aria-hidden="true"></i>
             <span [ngClass]="{'primary-color-font': repository.selected, 'accent-color-font': !repository.selected}">
-              {{repository.age}}
+              {{repository.age | date:'shortDate'}}
             </span>
           </div>
         </div>
@@ -121,7 +121,6 @@
         </md-slide-toggle>
       </div>
     </div>
-    <span class="subtitle accent-color-bg">Pull requests</span>
   </md-card>
 
   <md-card class="repository-container sub primary-color-bg" *ngIf="repository">
