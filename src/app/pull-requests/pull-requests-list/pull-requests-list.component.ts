@@ -31,6 +31,8 @@ export class PullRequestsListComponent implements OnInit {
                                           (pullRequests) => this.pullRequests = pullRequests,
                                           (error) => console.log(error)
                                         );
+
+    this.pullRequestService.refreshPullRequestList();
   }
 
 }

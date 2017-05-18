@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
-import { MdSnackBar } from '@angular/material';
+import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
 import { DialogsService } from '../../shared/dialogs/dialogs.service';
 import { SpinnerService } from '../../shared/providers/spinner.service';
 import 'rxjs/add/operator/do';
@@ -23,7 +23,7 @@ export class AccountComponent implements OnInit {
               private dialogService: DialogsService,
               private spinnerService: SpinnerService,
               private snackBar: MdSnackBar,
-	      private configurationService: ConfigurationService,
+              private configurationService: ConfigurationService,
               private pullRequestsService: PullRequestsService) { }
 
   ngOnInit() {
@@ -39,16 +39,14 @@ export class AccountComponent implements OnInit {
         .do(() => this.spinnerService.showSpinner())
         .toPromise()
         .then(() => {
-	  this.performRemoveAccount(account);
-	  this.configurationService.refreshConnectedRepositories();
-          this.pullRequestsService.refreshPullRequestList();
-	});
+          this.performRemoveAccount(account);
+        });
   }
 
   private performRemoveAccount(account: Account) {
     this.accountService.removeAccount(account)
         .do(() => this.spinnerService.hideSpinner())
-        .do(() => this.snackBar.open('Account successfully removed', null, { duration: 2000 }))
+        .do(() => this.snackBar.open('Account successfully removed', null, { duration: 2000 } as MdSnackBarConfig))
         .toPromise()
         .then(() => console.log('finiched'));
   }

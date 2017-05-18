@@ -13,7 +13,6 @@ export class ConfigurationService {
 
   constructor(private http: Http,
               private collaboratorService: CollaboratorService) {
-    this.refreshConnectedRepositories();
   }
 
   /**

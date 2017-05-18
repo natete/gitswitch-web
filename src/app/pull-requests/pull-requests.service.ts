@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { PullRequest } from './pull-request';
 import { Http } from '@angular/http';
 import { Constants } from '../shared/constants';
+import { DatePipe } from '@angular/common';
 
 @Injectable()
 export class PullRequestsService {
@@ -10,8 +11,8 @@ export class PullRequestsService {
   private readonly PULLREQUEST_ENDPOINT = `${Constants.BACKEND_URL}/api/simple_git/pull_request?_format=json`;
   private pullRequests = new BehaviorSubject<PullRequest[]>(null);
 
-  constructor(private http: Http) {
-    this.refreshPullRequestList();
+  constructor(private http: Http,
+              private datePipe: DatePipe) {
   }
 
   /**
@@ -24,7 +25,7 @@ export class PullRequestsService {
 
   refreshPullRequestList(): void {
     this.getPullRequestList()
-        .subscribe((res: PullRequest[]) => this.pullRequests.next(res));
+        .subscribe((res: PullRequest[]) => this.pullRequests.next(res.map(pr => new PullRequest(this.datePipe, pr))));
   }
 
   /**

@@ -46,6 +46,8 @@ export class ConfigurationComponent implements OnInit {
                                           (repositories) => this.repositories = repositories,
                                           (error) => console.error(error)
       );
+
+    this.configurationService.refreshConnectedRepositories();
   }
 
   /**
