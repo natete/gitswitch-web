@@ -13,7 +13,6 @@ export class PullRequestsService {
 
   constructor(private http: Http,
               private datePipe: DatePipe) {
-    // this.refreshPullRequestList();
   }
 
   /**
